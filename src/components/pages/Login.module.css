@@ -1,13 +1,19 @@
+@font-face {
+    font-family: tribal;
+    src: url(../../fonts/TRIBAL__.ttf);
+}
+
 * {
     box-sizing: border-box;
     font-family: Helvetica;
-    color: #1BFD9C;
+    color: #fff;
     border: none;
 }
 
 body {
     background-size: cover;
     background-position: center center;
+    background-image: linear-gradient(rgb(5, 5, 5), rgb(128, 128, 130));
 }
 
 .glass_efect {
@@ -28,15 +34,14 @@ body {
 
 .glass_efect h1 {
     text-align: center;
-    color:white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: tribal, Arial, Helvetica, sans-serif;
     text-transform: uppercase;
     padding: 30px 0px 18px 0px;
-    color: #1BFD9C;
+    color: #fff;
 }
 
 .glass_efect input {
-    border-bottom: 2px solid #188f5b;
+    border-bottom: 2px solid rgb(89, 89, 89);
     padding: 10px;
     margin-bottom: 20px;
     outline: none;
@@ -57,7 +62,7 @@ label {
 }
 
 input:focus {
-    border-bottom: 2px solid #1BFD9C;
+    border-bottom: 2px solid #333;
 }
 
 #forgot-pass {
@@ -74,6 +79,7 @@ input:focus {
 
 /* From cssbuttons.io by @adamgiebl */
 button {
+    cursor: pointer;
     --green: #1BFD9C;
     font-size: 15px;
     padding: 0.7em 2.7em;
