@@ -1,5 +1,19 @@
-const HomePage = () => {
-    return <div><h1>page</h1></div>
-}
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
 
-export default HomePage
+const HomePage = () => {
+  const { logout } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  return (
+    <div>
+      <h1>Homepage</h1>
+      <button onClick={handleLogout}>sair</button>
+    </div>
+  );
+};
+
+export default HomePage;

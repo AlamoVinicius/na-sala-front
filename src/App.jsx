@@ -1,12 +1,11 @@
 import "./App.css";
-import HomePage from "./components/pages/HomePage";
-import Login from "./components/pages/Login";
-import Container from "./components/layout/Container";
+import AppRoutes from "./AppRoutes";
+
 
 function App() {
   return (
     <div className="App">
-        <Login />
+      <AppRoutes />
     </div>
   );
 }
