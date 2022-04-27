@@ -1,2 +1,2 @@
 # na-sala-admin
-aplicação que estou desenvolvendo para administração do estudio na sala
+aplicação em desenvolvimento para o estudio na sala-tatoo
