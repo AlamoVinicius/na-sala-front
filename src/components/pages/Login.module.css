@@ -3,26 +3,14 @@
     src: url(../../fonts/TRIBAL__.ttf);
 }
 
-* {
+.login_box {
     box-sizing: border-box;
     font-family: Helvetica;
-    color: #fff;
     border: none;
-}
-
-body {
-    background-size: cover;
-    background-position: center center;
-    background-image: linear-gradient(rgb(5, 5, 5), rgb(128, 128, 130));
-}
-
-.glass_efect {
     padding: 20px 30px;
     text-align: center;
     width: 400px;
     margin: auto;
-    margin-top: 10vh;
-    
     backdrop-filter: blur(11px) saturate(180%);
     -webkit-backdrop-filter: blur(11px) saturate(180%);
     background-color: rgba(17, 25, 40, 0.575);
@@ -32,15 +20,15 @@ body {
     box-shadow: 4px 4px 8px black;
 }
 
-.glass_efect h1 {
+.login_box h1 {
     text-align: center;
     font-family: tribal, Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
+    font-weight: normal;
     padding: 30px 0px 18px 0px;
     color: #fff;
 }
 
-.glass_efect input {
+.login_box input {
     border-bottom: 2px solid rgb(89, 89, 89);
     padding: 10px;
     margin-bottom: 20px;
@@ -51,6 +39,7 @@ body {
 }
 
 label, input {
+    border: none;   
     display: block;
     width: 100%;
     text-align: left;
@@ -65,22 +54,14 @@ input:focus {
     border-bottom: 2px solid #333;
 }
 
-#forgot-pass {
-    display: inline-block;
-    margin-left: 60%;
-    text-align: right;
-    font-size: .8rem;
-}
-
-.btn {
+.btn_area {
     text-align: center;
     padding: 50px;
 }
 
-/* From cssbuttons.io by @adamgiebl */
-button {
+.btn {
     cursor: pointer;
-    --green: #1BFD9C;
+    --green: rgb(255, 251, 251);
     font-size: 15px;
     padding: 0.7em 2.7em;
     letter-spacing: 0.06em;
@@ -91,17 +72,17 @@ button {
     transition: all 0.3s;
     line-height: 1.4em;
     border: 2px solid var(--green);
-    background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60% , rgba(27, 253, 156, 0.1) 100%);
+    background: linear-gradient(to right, rgb(255, 251, 251, 0.1) 1%, transparent 40%,transparent 60% , rgb(255, 251, 251, 0.1) 100%);
     color: var(--green);
-    box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4), 0 0 9px 3px rgba(27, 253, 156, 0.1);
-   }
+    box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.4), 0 0 9px 3px rgb(255, 251, 251, 0.1);
+   }  /*-0.3 transp rgba same color*/
    
-   button:hover {
-    color: #82ffc9;
-    box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.6), 0 0 9px 3px rgba(27, 253, 156, 0.2);
-   }
+   .btn:hover {
+    color: rgb(209, 209, 209);
+    box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.6), 0 0 9px 3px rgb(255, 251, 251, 0.2);
+   } /*-0. transp rgba same color*/
    
-   button:before {
+   .btn:before {
     content: "";
     position: absolute;
     left: -4em;
@@ -109,9 +90,9 @@ button {
     height: 100%;
     top: 0;
     transition: transform .4s ease-in-out;
-    background: linear-gradient(to right, transparent 1%, rgba(27, 253, 156, 0.1) 40%,rgba(27, 253, 156, 0.1) 60% , transparent 100%);
+    background: linear-gradient(to right, transparent 1%, rgb(255, 251, 251, 0.1) 40%,rgb(255, 251, 251, 0.1) 60% , transparent 100%);  /*rgba same color*/
    }
    
-   button:hover:before {
+   .btn:hover:before {
     transform: translateX(15em);
    }

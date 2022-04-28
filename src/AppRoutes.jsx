@@ -9,7 +9,6 @@ import {
 
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
-import Container from "./components/layout/Container";
 
 import { Authprovider, AuthContext } from "./contexts/auth";
 
@@ -31,22 +30,20 @@ const AppRoutes = () => {
   return (
     // sinal !!user => cast for boolean == boolean()
     <Router>
-      <Container>
-        <Authprovider>
-          <Routes>
-            <Route exact path="/login" element={<Login />} />
-            <Route
-              exact
-              path="/"
-              element={
-                <Private>
-                  <HomePage />
-                </Private>
-              }
-            />
-          </Routes>
-        </Authprovider>
-      </Container>
+      <Authprovider>
+        <Routes>
+          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <Private>
+                <HomePage />
+              </Private>
+            }
+          />
+        </Routes>
+      </Authprovider>
     </Router>
   );
 };

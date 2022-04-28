@@ -1,3 +1,5 @@
+import styles from "./HomePage.module.css";
+
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 
@@ -9,7 +11,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div className={styles.body}>
       <h1>Homepage</h1>
       <button onClick={handleLogout}>sair</button>
     </div>
