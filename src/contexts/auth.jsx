@@ -1,6 +1,8 @@
 // informações globais
-import { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { api, createSession } from "../services/api";
 
 export const AuthContext = createContext(); // cria um contexto global para aplicação
 
@@ -8,6 +10,7 @@ export const Authprovider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // impedir aplicação perder o login ao dar refresh:
   useEffect(() => {
@@ -20,26 +23,31 @@ export const Authprovider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (username, password) => {
-    console.log("login", { username, password });
-    // api session resp simulation
-    const loggedUser = {
-      // dados testes para desenvolvimento sem conexão com database
-      id: "123",
-      username,
-    };
+  const login = async (username, password) => {
+    await createSession(username, password)
+      .then(response => {
+        const loggedUser = response.data.user;
+        const token = response.data.token;
 
-    localStorage.setItem("user", JSON.stringify(loggedUser)); // guardar dados na navegação
+        localStorage.setItem("user", JSON.stringify(loggedUser)); // guardar usuario durante uso da aplicação
+        localStorage.setItem("token", token);
 
-    if (password === "secret") {
-      setUser(loggedUser);
-      navigate("/");
-    }
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+        setUser(loggedUser);
+        navigate("/");
+        console.log("login", response);
+      })
+      .catch(err => setErrorMsg(err.response.data.error));
   };
+
   // informações provisorias para adminstração do frontend
   const logout = () => {
     console.log("logout");
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    api.defaults.headers.Authorization = null;
+
     setUser(null);
     navigate("/login");
   };
@@ -48,7 +56,7 @@ export const Authprovider = ({ children }) => {
   //user == null authenticated = false
   return (
     <AuthContext.Provider
-      value={{ authenticated: !!user, user, loading, login, logout }}
+      value={{ authenticated: !!user, user, loading, login, logout, errorMsg }} // sinal !!user => cast for boolean == boolean()
     >
       {children}
     </AuthContext.Provider>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import {
   BrowserRouter as Router,
@@ -28,7 +28,6 @@ const AppRoutes = () => {
   };
 
   return (
-    // sinal !!user => cast for boolean == boolean()
     <Router>
       <Authprovider>
         <Routes>
