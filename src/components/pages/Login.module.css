@@ -1,6 +1,15 @@
 @font-face {
     font-family: tribal;
-    src: url(../../fonts/TRIBAL__.ttf);
+    src: url(../../assets/fonts/TRIBAL__.ttf);
+}
+
+.container_login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../../assets/imgs/background-image.jpg);
+    background-size: cover;
 }
 
 .login_box {
@@ -10,7 +19,6 @@
     padding: 20px 30px;
     text-align: center;
     width: 400px;
-    margin: auto;
     backdrop-filter: blur(11px) saturate(180%);
     -webkit-backdrop-filter: blur(11px) saturate(180%);
     background-color: rgba(17, 25, 40, 0.575);
@@ -38,19 +46,19 @@
     color: white;
 }
 
-label, input {
+.login_box label, input {
     border: none;   
     display: block;
     width: 100%;
     text-align: left;
 }
 
-label {
+.login_box label {
     font-weight: bold;
     font-size: .8em;
 }
 
-input:focus {
+.login_box input:focus {
     border-bottom: 2px solid #333;
 }
 

@@ -1,0 +1,15 @@
+
+.navbar a {
+  text-decoration: none;
+}
+
+.navbar_target {
+  padding: 0.5rem 1rem 0.5rem 0;
+  color: #ffffff8c;
+  text-decoration: none;
+}
+
+.navbar_target:hover {
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.15s ease-in-out;
+}

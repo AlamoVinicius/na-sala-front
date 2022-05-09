@@ -4,16 +4,19 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
+  Navigate
 } from "react-router-dom";
 
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
+import NewReservation from "./components/pages/newReservation/NewReservation";
+import Myreservations from "./components/pages/my-reservations/Myreservations";
+import NotFound from "./components/pages/NotFound";
 
 import { Authprovider, AuthContext } from "./contexts/auth";
-
 const AppRoutes = () => {
   //privando rota home page
+
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);
 
@@ -31,7 +34,7 @@ const AppRoutes = () => {
     <Router>
       <Authprovider>
         <Routes>
-          <Route exact path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route
             exact
             path="/"
@@ -41,6 +44,23 @@ const AppRoutes = () => {
               </Private>
             }
           />
+          <Route
+            path="/newreservation"
+            element={
+              <Private>
+                <NewReservation />
+              </Private>
+            }
+          />
+          <Route
+            path="/myreservations"
+            element={
+              <Private>
+                <Myreservations />
+              </Private>
+            }
+          />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </Authprovider>
     </Router>

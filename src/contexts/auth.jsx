@@ -15,16 +15,18 @@ export const Authprovider = ({ children }) => {
   // impedir aplicação perder o login ao dar refresh:
   useEffect(() => {
     const recoveredUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token")
 
-    if (recoveredUser) {
+    if (recoveredUser && token) {
       setUser(JSON.parse(recoveredUser));
+      api.defaults.headers.Authorization = `Bearer ${token}`;
     }
 
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
-    await createSession(username, password)
+  const login = (username, password) => {
+     createSession(username, password)
       .then(response => {
         const loggedUser = response.data.user;
         const token = response.data.token;
@@ -45,7 +47,6 @@ export const Authprovider = ({ children }) => {
     console.log("logout");
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-
     api.defaults.headers.Authorization = null;
 
     setUser(null);
