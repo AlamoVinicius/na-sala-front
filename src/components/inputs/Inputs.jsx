@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./Input.module.css";
+import styles from "./Inputs.module.css";
 
 export const InputEffect = ({
   type,
@@ -12,8 +12,9 @@ export const InputEffect = ({
   return (
     <div className={styles.group}>
       <input
-        type={type}
+        required
         className={styles.input_effect}
+        type={type}
         name={name}
         onChange={handleOnChange}
         value={value}

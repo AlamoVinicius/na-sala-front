@@ -9,7 +9,7 @@ import {
 
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
-import NewReservation from "./components/pages/newReservation/NewReservation";
+import NewReservationPage from "./components/pages/newReservation/";
 import Myreservations from "./components/pages/my-reservations/Myreservations";
 import NotFound from "./components/pages/NotFound";
 
@@ -19,7 +19,6 @@ const AppRoutes = () => {
 
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);
-
     if (loading) {
       return <div className="loading">Carregando...</div>;
     }
@@ -45,10 +44,10 @@ const AppRoutes = () => {
             }
           />
           <Route
-            path="/newreservation"
+            path="/newreservationpage"
             element={
               <Private>
-                <NewReservation />
+                <NewReservationPage/>
               </Private>
             }
           />

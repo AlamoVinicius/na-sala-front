@@ -7,7 +7,14 @@ export const api = axios.create({
 export const createSession = (username, password) => {
   return api.post("/sessions", { username, password })
 };
-
+ // ========= users ============== 
 export const getUsers = async () => {
   return api.get("/users")
+}
+
+
+// ========== stations/macas ============
+
+export const getStations = async () => {
+  return api.get("/stations")
 }

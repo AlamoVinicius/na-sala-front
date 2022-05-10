@@ -17,7 +17,6 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault();
     //console.log("submit", { user, password });
-    console.log(errorMsg);
     login(user, password); // integração com o context e api do backend
     !authenticated ? setShowMessageError(true) : setShowMessageError(false);
     setTimeout(() => {

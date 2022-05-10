@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import styles from "./LinkButton.module.css";
+import styles from "./Buttons.module.css";
 
-const LinkButton = ({ to, text }) => {
+export const LinkButton = ({ to, text }) => {
   return (
     <Link className={styles.btn} to={to}>
       <span>{text}</span>
@@ -15,4 +15,10 @@ const LinkButton = ({ to, text }) => {
   );
 };
 
-export default LinkButton;
+export const FormButton = ({ text }) => {
+  return (
+    <div className={styles.FormButton}>
+      <button>{text}</button>
+    </div>
+  );
+};
