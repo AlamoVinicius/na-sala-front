@@ -3,7 +3,6 @@ import { AuthContext } from "../../contexts/auth";
 
 import styles from "./Login.module.css";
 
-
 import Alert from "../layout/Alert";
 
 const Login = () => {
@@ -16,12 +15,8 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    //console.log("submit", { user, password });
-    login(user, password); // integração com o context e api do backend
+    login(user, password);
     !authenticated ? setShowMessageError(true) : setShowMessageError(false);
-    setTimeout(() => {
-      setShowMessageError(false);
-    }, 3000);
   };
 
   return (
@@ -47,7 +42,9 @@ const Login = () => {
             value={password}
             onChange={event => setPassword(event.target.value)}
           />
-          {showMessageError ? <Alert severity={"error"} msg={errorMsg} /> : null}
+          {showMessageError ? (
+            <Alert severity={"error"} msg={errorMsg} />
+          ) : null}
           <div className={styles.btn_area}>
             <button className={styles.btn}>Entrar</button>
           </div>

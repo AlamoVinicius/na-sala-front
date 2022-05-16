@@ -6,7 +6,7 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import styles from "./Navbar.module.css";
 
 
-const NavBar = props => {
+const NavBar = () => {
   const { logout, user } = useContext(AuthContext);
 
   const handleLogout = () => {
