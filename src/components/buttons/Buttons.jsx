@@ -15,10 +15,10 @@ export const LinkButton = ({ to, text }) => {
   );
 };
 
-export const FormButton = ({ text }) => {
+export const FormButton = ({ text, handleClick }) => {
   return (
-    <div className={styles.FormButton}>
-      <button>{text}</button>
-    </div>
+    <button className={styles.FormButton} onClick={handleClick}>
+      {text}
+    </button>
   );
 };

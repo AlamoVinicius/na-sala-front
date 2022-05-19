@@ -1,3 +1,12 @@
 .date_time_zone {
-  padding: 50px;
+  padding: 25px;
+}
+
+.newReservation_area h2 {
+  text-align: center;
+}
+
+.list_area span {
+  margin-left: 20px;
+  margin-right: 40px;
 }

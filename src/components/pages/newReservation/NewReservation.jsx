@@ -1,4 +1,4 @@
-import { getStations } from "../../../services/api";
+import { getStations, availableStations } from "../../../services/api";
 
 export const submit = async (
   e,
@@ -8,6 +8,7 @@ export const submit = async (
   user
 ) => {
   e.preventDefault();
+  // const availableStations = await getAvailableStations()
   const stations = await getStations();
   setStations(stations.data);
   setNewReservation({
@@ -29,10 +30,27 @@ export const startTime = (
 };
 
 export const finalTime = (newReservation, e, setNewReservation) => {
-  const initialDate = new Date(newReservation.StartDate); 
-  const finalDate = new Date(      //  format yyyy/mm/dd hh:mm is ok
+  const initialDate = new Date(newReservation.startDate);
+  const finalDate = new Date( //  format yyyy/mm/dd hh:mm is ok
     `${initialDate.getFullYear()}/${initialDate.getMonth() +
       1}/${initialDate.getDate()} ${e.target.value}`
   );
   setNewReservation({ ...newReservation, [e.target.name]: finalDate });
+};
+
+export const verifyAvailable = async (
+  e,
+  newReservation,
+  setStationsAvailable,
+  setShowPickStationAvailable
+) => {
+  e.preventDefault();
+  const initialDate = new Date(newReservation.startDate);
+  const endDate = new Date(newReservation.finalDate);
+  const stations = await availableStations({
+    startDate: initialDate,
+    finalDate: endDate
+  });
+  setStationsAvailable(stations.data);
+  setShowPickStationAvailable(true)
 };

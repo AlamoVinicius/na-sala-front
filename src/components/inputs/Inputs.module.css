@@ -1,9 +1,10 @@
-/* From uiverse.io by @G4b413l */
 .group {
     position: relative;
+    margin-bottom: 30px;
   }
   
   .input_effect {
+    cursor: text;
     font-size: 16px;
     padding: 10px 10px 10px 5px;
     display: block;

@@ -3,35 +3,36 @@ import React, { useState } from "react";
 //import { getStations } from "../../../services/api";
 
 import NavBar from "../../navbar/Navbar";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, ListGroup } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./index.module.css";
 import { InputEffect } from "../../inputs/Inputs";
 
-import { submit, startTime, finalTime } from "./NewReservation";
+import {
+  submit,
+  startTime,
+  finalTime,
+  verifyAvailable
+} from "./NewReservation";
 
 const Newreservation = () => {
   const [newReservation, setNewReservation] = useState({});
   const [showFinalPickTime, setFinalShowPickTime] = useState(false);
-  const [stations, setStations] = useState([]);
+  const [showPickStationAvailable, setShowPickStationAvailable] = useState(
+    false
+  );
+
+  const [stationsAvailable, setStationsAvailable] = useState([]);
   const recoveryUser = localStorage.getItem("user");
   const user = JSON.parse(recoveryUser); // transformar user em objeto pois ele vem como string do local storage
 
   const handleSubmit = e => {
-    submit(e, setNewReservation, setStations, newReservation, user);
-    console.log(newReservation);
-  };
-
-  const handleStartTime = e => {
-    startTime(e, setNewReservation, newReservation, setFinalShowPickTime);
-  };
-
-  const handleFinalTime = e => {
-    finalTime(newReservation, e, setNewReservation);
+    submit(e, setNewReservation, newReservation, user);
+    //console.log(newReservation);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.newReservation_area}>
       <NavBar />
       <Container>
         <Row>
@@ -41,8 +42,15 @@ const Newreservation = () => {
               <InputEffect
                 textLabel="Selecione o dia e a hora:"
                 type="datetime-local"
-                name="StartDate"
-                handleOnChange={handleStartTime}
+                name="startDate"
+                handleOnChange={e =>
+                  startTime(
+                    e,
+                    setNewReservation,
+                    newReservation,
+                    setFinalShowPickTime
+                  )
+                }
               />
             </div>
             {showFinalPickTime ? (
@@ -52,21 +60,43 @@ const Newreservation = () => {
                   textLabel="horário final"
                   type="time"
                   name="finalDate"
-                  handleOnChange={handleFinalTime}
+                  handleOnChange={e =>
+                    finalTime(newReservation, e, setNewReservation)
+                  }
                 />
-                <FormButton text="Verificar Disponibilidade" />
+                <FormButton
+                  text="Verificar Disponibilidade"
+                  handleClick={e =>
+                    verifyAvailable(
+                      e,
+                      newReservation,
+                      setStationsAvailable,
+                      setShowPickStationAvailable
+                    )
+                  }
+                />
               </div>
             ) : null}
           </Col>
-          <Col sm={6}>
-            <p>{JSON.stringify(newReservation)}</p>{" "}
-            {/*Visualizaççao do objeto -debbug*/}
-            <ul>
-              {stations.map(station => {
-                return <li key={station.name}>{station.name}</li>;
-              })}
-            </ul>
-          </Col>
+          {showPickStationAvailable ? (
+            <Col sm={6}>
+              <h2>Macas disponíveis</h2>
+              <ListGroup>
+                {stationsAvailable.map(station => {
+                  return (
+                    <ListGroup.Item
+                      className={styles.list_area}
+                      key={station._id}
+                    >
+                      <img src="https://via.placeholder.com/75x75" alt="" />
+                      <span className={styles.list_span}>{station.name}</span>
+                      <FormButton text="Selecionar" />
+                    </ListGroup.Item>
+                  );
+                })}
+              </ListGroup>
+            </Col>
+          ) : null}
         </Row>
       </Container>
     </form>
