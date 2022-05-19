@@ -52,5 +52,17 @@ export const verifyAvailable = async (
     finalDate: endDate
   });
   setStationsAvailable(stations.data);
-  setShowPickStationAvailable(true)
+  setShowPickStationAvailable(true);
+};
+
+export const handlePickSelected = (
+  event,
+  station,
+  setStationSelected,
+  setShowPickStationAvailable
+) => {
+  event.preventDefault();
+  setStationSelected(station);
+  setShowPickStationAvailable(false);
+  console.log(station);
 };

@@ -10,3 +10,10 @@
   margin-left: 20px;
   margin-right: 40px;
 }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
