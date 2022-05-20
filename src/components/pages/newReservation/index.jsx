@@ -13,7 +13,8 @@ import {
   startTime,
   finalTime,
   verifyAvailable,
-  handlePickSelected
+  handlePickSelected,
+  ShowDateReservation
 } from "./NewReservation";
 
 const Newreservation = () => {
@@ -89,8 +90,8 @@ const Newreservation = () => {
                       className={styles.list_area}
                       key={station._id}
                     >
-                      <img src="https://via.placeholder.com/75x75" alt="" />
-                      <span className={styles.list_span}>{station.name}</span>
+                      <img src={station.image} alt="Equipamento" />
+                      <span>{station.name}</span>
                       <FormButton
                         text="Selecionar"
                         handleClick={e =>
@@ -109,18 +110,14 @@ const Newreservation = () => {
             </Col>
           ) : null}
           {stationSelected ? (
-            <Col sm={6} className={styles.card}>
-              <Card style={{ width: "18rem" }}>
-                <Card.Img
-                  variant="top"
-                  src="https://images.tcdn.com.br/img/img_prod/899714/maca_para_tatuagem_pt_03_pontual_estetica_preta_385_1_20201217175550.jpg"
-                />
+            <Col sm={6}>
+              <Card style={{ width: "18rem" }} className={styles.card}>
+                <Card.Img variant="top" src={stationSelected.image} />
                 <Card.Body>
                   <Card.Title>{stationSelected.name}</Card.Title>
                   <Card.Text>
-                    <strong>reserva dia: </strong>
-                    {JSON.stringify(newReservation.startDate)} /{" "}
-                    {JSON.stringify(newReservation.finalDate)}
+                    <strong>Reserva dia: </strong>
+                    <ShowDateReservation reservation={newReservation} />
                   </Card.Text>
                   <Card.Text>
                     <strong>Usuário: </strong> {user.username}

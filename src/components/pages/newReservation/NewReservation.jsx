@@ -1,3 +1,4 @@
+import { React } from "react";
 import { getStations, availableStations } from "../../../services/api";
 
 export const submit = async (
@@ -65,4 +66,17 @@ export const handlePickSelected = (
   setStationSelected(station);
   setShowPickStationAvailable(false);
   console.log(station);
+};
+
+export const ShowDateReservation = ({ reservation }) => {
+  const initialDate = new Date(reservation.startDate).toLocaleDateString();
+  const startHour = new Date(reservation.startDate).getHours();
+  const startMinutes = new Date(reservation.startDate).getMinutes();
+
+  const endHours = new Date(reservation.finalDate).getHours();
+  const endMinutes = new Date(reservation.finalDate).getMinutes();
+
+  return (
+      `${initialDate} das ${startHour}:${startMinutes} ás ${endHours}:${endMinutes}`
+  );
 };

@@ -7,13 +7,18 @@
 }
 
 .list_area span {
+  display: inline-block;
+  width: 150px;
   margin-left: 20px;
   margin-right: 40px;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.list_area img {
+  width: 75px;
+  height: 75px;
 }
+
+.card {
+  margin: 10px auto 0 auto;
+}
+
