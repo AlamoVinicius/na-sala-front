@@ -1,0 +1,10 @@
+.area_booking span {
+    display: block;
+    margin-bottom: 1em;
+}
+
+.buttonCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //import { getStations } from "../../../services/api";
 
@@ -7,6 +8,7 @@ import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./index.module.css";
 import { InputEffect } from "../../inputs/Inputs";
+import Alert from "../../layout/Alert";
 
 import {
   submit,
@@ -20,17 +22,16 @@ import {
 const Newreservation = () => {
   const [newReservation, setNewReservation] = useState({});
   const [showFinalPickTime, setFinalShowPickTime] = useState(false);
-  const [showPickStationAvailable, setShowPickStationAvailable] = useState(
-    false
-  );
+  const [showPickStationAvailable, setShowPickStationAvailable] = useState(false);
   const [stationSelected, setStationSelected] = useState();
   const [stationsAvailable, setStationsAvailable] = useState([]);
+  const [showErrorMsg, setShowErrorMsg] = useState(null);
+
   const recoveryUser = localStorage.getItem("user");
   const user = JSON.parse(recoveryUser); // transformar user em objeto pois ele vem como string do local storage
-
+  const navigate = useNavigate();
   const handleSubmit = e => {
-    submit(e, setNewReservation, newReservation, user);
-    //console.log(newReservation);
+    submit(e, newReservation, user, stationSelected, setShowErrorMsg, setFinalShowPickTime, navigate);
   };
 
   return (
@@ -45,14 +46,7 @@ const Newreservation = () => {
                 textLabel="Selecione o dia e a hora:"
                 type="datetime-local"
                 name="startDate"
-                handleOnChange={e =>
-                  startTime(
-                    e,
-                    setNewReservation,
-                    newReservation,
-                    setFinalShowPickTime
-                  )
-                }
+                handleOnChange={e => startTime(e, setNewReservation, newReservation, setFinalShowPickTime)}
               />
             </div>
             {showFinalPickTime ? (
@@ -62,19 +56,12 @@ const Newreservation = () => {
                   textLabel="horário final"
                   type="time"
                   name="finalDate"
-                  handleOnChange={e =>
-                    finalTime(newReservation, e, setNewReservation)
-                  }
+                  handleOnChange={e => finalTime(newReservation, e, setNewReservation)}
                 />
                 <FormButton
                   text="Verificar Disponibilidade"
                   handleClick={e =>
-                    verifyAvailable(
-                      e,
-                      newReservation,
-                      setStationsAvailable,
-                      setShowPickStationAvailable
-                    )
+                    verifyAvailable(e, newReservation, setStationsAvailable, setShowPickStationAvailable)
                   }
                 />
               </div>
@@ -86,21 +73,13 @@ const Newreservation = () => {
               <ListGroup>
                 {stationsAvailable.map(station => {
                   return (
-                    <ListGroup.Item
-                      className={styles.list_area}
-                      key={station._id}
-                    >
+                    <ListGroup.Item className={styles.list_area} key={station._id}>
                       <img src={station.image} alt="Equipamento" />
                       <span>{station.name}</span>
                       <FormButton
                         text="Selecionar"
                         handleClick={e =>
-                          handlePickSelected(
-                            e,
-                            station,
-                            setStationSelected,
-                            setShowPickStationAvailable
-                          )
+                          handlePickSelected(e, station, setStationSelected, setShowPickStationAvailable)
                         }
                       />
                     </ListGroup.Item>
@@ -120,19 +99,18 @@ const Newreservation = () => {
                     <ShowDateReservation reservation={newReservation} />
                   </Card.Text>
                   <Card.Text>
-                    <strong>Usuário: </strong> {user.username}
+                    <strong>Tatuador: </strong> {user.username}
                   </Card.Text>
-                  <FormButton
-                    text="Confirmar"
-                    handleClick={e => handleSubmit(e)}
-                  />
+                  <FormButton text="Confirmar" handleClick={e => handleSubmit(e)} />
                   <FormButton
                     text="Cancelar"
                     handleClick={e => {
                       e.preventDefault();
                       setStationSelected(false);
+                      setShowErrorMsg(false)
                     }}
                   />
+                  {showErrorMsg ? <Alert severity="error" msg={showErrorMsg} /> : null}
                 </Card.Body>
               </Card>
             </Col>

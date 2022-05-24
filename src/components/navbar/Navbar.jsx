@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import styles from "./Navbar.module.css";
+import logo from "../../assets/imgs/icone-naSala.png"
 
 
 const NavBar = () => {
@@ -17,7 +18,8 @@ const NavBar = () => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className={styles.navbar}>
       <Container>
-       <Link to={"/"}> <Navbar.Brand>NaSala reservas</Navbar.Brand></Link>
+       <Link to={"/"}> <Navbar.Brand> <img src={logo} alt="logo na Sala" />
+         NaSala reservas</Navbar.Brand></Link>
         <Navbar.Text className="justify-items-center">
           Bem vindo: "{user.username}"
         </Navbar.Text>
@@ -44,6 +46,9 @@ const NavBar = () => {
             ) : null}
           </Nav>
           <Nav>
+          <Link className={styles.navbar_target} to={"/"}>
+              Home
+            </Link>
             <Link className={styles.navbar_target} to={"/myreservations"}>
               Minhas reservas
             </Link>

@@ -10,12 +10,11 @@ import {
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
 import NewReservationPage from "./components/pages/newReservation/";
-import Myreservations from "./components/pages/my-reservations/Myreservations";
+import Myreservations from "./components/pages/my-reservations";
 import NotFound from "./components/pages/NotFound";
 
 import { Authprovider, AuthContext } from "./contexts/auth";
 const AppRoutes = () => {
-  //privando rota home page
 
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);

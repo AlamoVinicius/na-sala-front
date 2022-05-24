@@ -3,6 +3,11 @@
   text-decoration: none;
 }
 
+.navbar img {
+  width: 75px;
+  height: 75px;
+}
+
 .navbar_target {
   padding: 0.5rem 1rem 0.5rem 0;
   color: #ffffff8c;

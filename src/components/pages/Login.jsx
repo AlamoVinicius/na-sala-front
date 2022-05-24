@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 
 import styles from "./Login.module.css";
-
+import logo from "../../assets/imgs/icone-naSala.png"
 import Alert from "../layout/Alert";
 
 const Login = () => {
@@ -24,6 +24,7 @@ const Login = () => {
       <div className={styles.login_box}>
         <form onSubmit={handleSubmit}>
           <h1>Na sala House</h1>
+          <img src={logo} alt="na sala logo" />
           <label htmlFor="username">Username</label>
           <input
             type="text"
