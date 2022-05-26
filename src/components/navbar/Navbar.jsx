@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 import { Link } from "react-router-dom";
 
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav } from "react-bootstrap";
 import styles from "./Navbar.module.css";
-import logo from "../../assets/imgs/icone-naSala.png"
-
+import logo from "../../assets/imgs/icone-naSala.png";
 
 const NavBar = () => {
   const { logout, user } = useContext(AuthContext);
@@ -14,45 +13,34 @@ const NavBar = () => {
     logout();
   };
 
-
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className={styles.navbar}>
       <Container>
-       <Link to={"/"}> <Navbar.Brand> <img src={logo} alt="logo na Sala" />
-         NaSala reservas</Navbar.Brand></Link>
-        <Navbar.Text className="justify-items-center">
-          Bem vindo: "{user.username}"
-        </Navbar.Text>
+        <Link to={"/"}>
+          <Navbar.Brand>
+            <img src={logo} alt="logo na Sala" />
+            NaSala reservas
+          </Navbar.Brand>
+        </Link>
+        <Navbar.Text className="justify-items-center">Bem vindo: {user.username}</Navbar.Text>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             {user.nivelUser === 1 ? (
-              <NavDropdown title="Admin" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">
-                  Novo usuário
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Deletar um usuário
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Todas as reservas
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Ver todos os usuários
-                </NavDropdown.Item>
-              </NavDropdown>
+              <Link to={"/admin"} className={styles.navbar_target}>
+                Admin
+              </Link>
             ) : null}
           </Nav>
           <Nav>
-          <Link className={styles.navbar_target} to={"/"}>
+            <Link className={styles.navbar_target} to={"/"}>
               Home
             </Link>
             <Link className={styles.navbar_target} to={"/myreservations"}>
               Minhas reservas
             </Link>
-            <Nav.Link onClick={handleLogout}>sair</Nav.Link>
+            <Nav.Link className={styles.navbar_target} onClick={handleLogout}>sair</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

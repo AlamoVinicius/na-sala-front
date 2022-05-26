@@ -1,21 +1,16 @@
 import React, { useContext } from "react";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
 import NewReservationPage from "./components/pages/newReservation/";
 import Myreservations from "./components/pages/my-reservations";
 import NotFound from "./components/pages/NotFound";
+import AdminPage from "./components/pages/admin";
 
 import { Authprovider, AuthContext } from "./contexts/auth";
 const AppRoutes = () => {
-
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);
     if (loading) {
@@ -55,6 +50,14 @@ const AppRoutes = () => {
             element={
               <Private>
                 <Myreservations />
+              </Private>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <Private>
+                <AdminPage />
               </Private>
             }
           />

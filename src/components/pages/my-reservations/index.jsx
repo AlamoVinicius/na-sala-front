@@ -30,7 +30,7 @@ const Myreservations = () => {
     setTimeout(() => {
       setShowMsg(false);
     }, 3000);
-  }, []);
+  }, [msg]);
 
   return (
     <div>

@@ -12,6 +12,13 @@ export const getUsers = async () => {
   return await api.get("/users")
 }
 
+export const createUser = async (user) => {
+  return await api.post("/users", user)
+}
+
+export const deleteUser = async (id) => {
+  return await api.delete(`/users/${id}`)
+}
 // ========== stations/macas ============
 export const getStation = async (name) => {
   return await api.get(`/stations/${name}`)
