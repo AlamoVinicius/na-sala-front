@@ -29,6 +29,10 @@ export const getMyBookings = async (username) => {
   return await api.get(`/booking/${username}`)
 }
 
+export const getBookingsbyDay = async (date) => {
+  return await api.get(`/getbookingbyday?date=${date}`)
+}
+
 export const availableStations = async (object) => {
   return await api.post("/booking/verify", object) // end pont para verificar as macas que estarão disponiveis
 }
