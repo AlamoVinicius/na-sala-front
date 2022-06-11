@@ -1,30 +1,47 @@
 import { availableStations, createBooking } from "../../../services/api";
 
-export const submit = async (e, newReservation, user, stationSelected, setShowErrorMsg, setFinalShowPickTime, navigate) => {
+export const submit = async (
+  e,
+  newReservation,
+  user,
+  stationSelected,
+  setShowErrorMsg,
+  setFinalShowPickTime,
+  navigate
+) => {
   e.preventDefault();
   const today = Date.now();
   const dateSelected = new Date(newReservation.startDate).getTime();
   if (dateSelected < today) {
     setShowErrorMsg("não é possivel realizar a reserva, data inválida");
     setFinalShowPickTime(false);
-    return
+    return;
   }
   const reservation = {
     stationName: stationSelected.name,
     ...newReservation,
-    username: user.username
+    username: user.username,
   };
   try {
     await createBooking(reservation);
-    navigate('/myreservations', {state: {message: "Reserva criada com sucesso!"}})
+    navigate("/myreservations", { state: { message: "Reserva criada com sucesso!" } });
   } catch (err) {
     console.log(err);
     setShowErrorMsg("Ocorreu algum erro ao realizar a reserva");
   }
 };
 
-export const startTime = (e, setNewReservation, newReservation, setFinalShowPickTime) => {
+export const startTime = (
+  e,
+  setNewReservation,
+  newReservation,
+  setFinalShowPickTime,
+  setStationSelected,
+  setShowErrorMsg
+) => {
   const startDate = new Date(e.target.value);
+  setShowErrorMsg(false);
+  setStationSelected(false);
   setNewReservation({ ...newReservation, [e.target.name]: startDate });
   startDate !== null ? setFinalShowPickTime(true) : setFinalShowPickTime(false);
 };
@@ -43,7 +60,7 @@ export const verifyAvailable = async (e, newReservation, setStationsAvailable, s
   const endDate = new Date(newReservation.finalDate);
   const stations = await availableStations({
     startDate: initialDate,
-    finalDate: endDate
+    finalDate: endDate,
   });
   setStationsAvailable(stations.data);
   setShowPickStationAvailable(true);
@@ -57,23 +74,11 @@ export const handlePickSelected = (event, station, setStationSelected, setShowPi
 
 export const ShowDateReservation = ({ reservation }) => {
   const initialDate = new Date(reservation.startDate).toLocaleDateString();
-  const startHour = new Date(reservation.startDate)
-    .getHours()
-    .toString()
-    .padStart(2, "0");
-  const startMinutes = new Date(reservation.startDate)
-    .getMinutes()
-    .toString()
-    .padStart(2, "0");
+  const startHour = new Date(reservation.startDate).getHours().toString().padStart(2, "0");
+  const startMinutes = new Date(reservation.startDate).getMinutes().toString().padStart(2, "0");
 
-  const endHours = new Date(reservation.finalDate)
-    .getHours()
-    .toString()
-    .padStart(2, "0");
-  const endMinutes = new Date(reservation.finalDate)
-    .getMinutes()
-    .toString()
-    .padStart(2, "0");
+  const endHours = new Date(reservation.finalDate).getHours().toString().padStart(2, "0");
+  const endMinutes = new Date(reservation.finalDate).getMinutes().toString().padStart(2, "0");
 
   return `${initialDate} das ${startHour}:${startMinutes} ás ${endHours}:${endMinutes}`;
 };

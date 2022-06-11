@@ -11,7 +11,7 @@ const HomePage = () => {
     <div className={styles.home_page}>
       <NavBar />
       <Container>
-        <h1>Bem vindo sitema de reservas para macas</h1>
+        <h1>Bem vindo escolha sua maca</h1>
         <Row>
           <Col className={styles.col} sm={6}>
             <LinkButton

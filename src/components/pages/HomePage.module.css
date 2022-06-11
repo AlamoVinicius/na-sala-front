@@ -1,9 +1,14 @@
 .home_page {
+    background-image: url(../../assets/imgs/background-macas.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
     text-align: center;
 }
 
 .home_page h1 {
     text-align: center;
+    color:  rgba(255, 255, 255, 0.884);
     margin: 1.2em 0;
     padding-bottom: 1.2em;
     border-bottom: 1px solid #7a7a7a;

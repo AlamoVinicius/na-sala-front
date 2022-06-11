@@ -16,7 +16,7 @@
   left: 0;
   display: block;
   border-radius: 50px;
-  background: #b1dae7;
+  background: #089ee9;
   width: 45px;
   height: 45px;
   transition: all 0.3s ease;
@@ -28,7 +28,7 @@
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #234567;
+  color: #fff8f8;
 }
 
 .btn svg {
@@ -46,7 +46,7 @@
 
 .btn:hover:before {
   width: 100%;
-  background: #b1dae7;
+  background: #2aacd3;
 }
 
 .btn:hover svg {

@@ -46,7 +46,7 @@ const Newreservation = () => {
                 textLabel="Selecione o dia e a hora:"
                 type="datetime-local"
                 name="startDate"
-                handleOnChange={e => startTime(e, setNewReservation, newReservation, setFinalShowPickTime)}
+                handleOnChange={e => startTime(e, setNewReservation, newReservation, setFinalShowPickTime, setStationSelected, setShowErrorMsg)}
               />
             </div>
             {showFinalPickTime ? (
