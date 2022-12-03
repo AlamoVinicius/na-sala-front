@@ -54,16 +54,32 @@ export const finalTime = (newReservation, e, setNewReservation) => {
   setNewReservation({ ...newReservation, [e.target.name]: finalDate });
 };
 
-export const verifyAvailable = async (e, newReservation, setStationsAvailable, setShowPickStationAvailable) => {
+export const verifyAvailable = async (
+  e,
+  newReservation,
+  setStationsAvailable,
+  setShowPickStationAvailable,
+  setStationSelected,
+  setLoading
+) => {
   e.preventDefault();
-  const initialDate = new Date(newReservation.startDate);
-  const endDate = new Date(newReservation.finalDate);
-  const stations = await availableStations({
-    startDate: initialDate,
-    finalDate: endDate,
-  });
-  setStationsAvailable(stations.data);
-  setShowPickStationAvailable(true);
+  try {
+    setLoading(true);
+    const initialDate = new Date(newReservation.startDate);
+    const endDate = new Date(newReservation.finalDate);
+    const stations = await availableStations({
+      startDate: initialDate,
+      finalDate: endDate,
+    });
+    setStationsAvailable(stations.data);
+    setShowPickStationAvailable(true);
+    setStationSelected(false);
+  } catch (error) {
+    console.log(error);
+    alert("ocorreu um erro ao verificar as estações disponíveis");
+  } finally {
+    setLoading(false);
+  }
 };
 
 export const handlePickSelected = (event, station, setStationSelected, setShowPickStationAvailable) => {

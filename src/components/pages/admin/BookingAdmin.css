@@ -3,10 +3,6 @@
   text-align: center;
 }
 
-.react-calendar .highlight {
-  /* border: 1px dashed red; */
-}
-
 .react-calendar .highlight::after {
   content: ".";
   display: inline-block;
@@ -14,4 +10,20 @@
   height: 10px;
   background-color: rgb(236, 25, 60);
   border-radius: 50%;
+}
+
+.react-calendar__tile--now {
+  background: #1f1f1d;
+}
+
+.custom_style {
+  background-image: linear-gradient(94.3deg, rgba(26, 33, 64, 1) 10.9%, rgba(81, 84, 115, 1) 87.1%);
+}
+
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
 }

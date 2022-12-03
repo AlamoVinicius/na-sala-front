@@ -6,6 +6,7 @@ import { ListGroup, Card } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./MyReservation.module.css";
 import ModalCustom from "../../modal/ModalCustom";
+import { macasImg } from "../../../utils/constants";
 
 export const MyReservationList = ({ bookings }) => {
   const [showList, setShowList] = useState(true);
@@ -13,23 +14,11 @@ export const MyReservationList = ({ bookings }) => {
   const [showModal, setShowModal] = useState(false);
 
   const date = new Date(bookings.startDate).toLocaleDateString();
-  const hour = new Date(bookings.startDate)
-    .getHours()
-    .toString()
-    .padStart(2, "0");
-  const minutes = new Date(bookings.startDate)
-    .getMinutes()
-    .toString()
-    .padStart(2, "0");
+  const hour = new Date(bookings.startDate).getHours().toString().padStart(2, "0");
+  const minutes = new Date(bookings.startDate).getMinutes().toString().padStart(2, "0");
 
-  const hourFinal = new Date(bookings.finalDate)
-    .getHours()
-    .toString()
-    .padStart(2, "0");
-  const minutesFinal = new Date(bookings.finalDate)
-    .getMinutes()
-    .toString()
-    .padStart(2, "0");
+  const hourFinal = new Date(bookings.finalDate).getHours().toString().padStart(2, "0");
+  const minutesFinal = new Date(bookings.finalDate).getMinutes().toString().padStart(2, "0");
 
   const handleClick = async (e, stationName) => {
     e.preventDefault();
@@ -42,7 +31,7 @@ export const MyReservationList = ({ bookings }) => {
     }
   };
 
-  const handleConfirmClick = async bookings => {
+  const handleConfirmClick = async (bookings) => {
     try {
       await deleteBooking(bookings._id);
       console.log("reserva deletado com sucesso");
@@ -63,12 +52,12 @@ export const MyReservationList = ({ bookings }) => {
               {date} das {hour}:{minutes} às {hourFinal}:{minutesFinal}
             </span>
             <FormButton text="deletar" handleClick={() => setShowModal(true)} />
-            <FormButton text="ver maca" handleClick={e => handleClick(e, bookings.stationName)} />
+            <FormButton text="ver maca" handleClick={(e) => handleClick(e, bookings.stationName)} />
           </ListGroup.Item>
         </ListGroup>
       ) : (
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={stationSelected.image} />
+          <Card.Img variant="top" src={macasImg[stationSelected.name]} />
           <Card.Body>
             <Card.Title>{stationSelected.name}</Card.Title>
             <div className={styles.button}>

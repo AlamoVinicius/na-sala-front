@@ -15,9 +15,9 @@ export const LinkButton = ({ to, text }) => {
   );
 };
 
-export const FormButton = ({ text, handleClick }) => {
+export const FormButton = ({ text, handleClick, width, ...rest }) => {
   return (
-    <button className={styles.FormButton} onClick={handleClick}>
+    <button className={styles.FormButton} style={{ width: width }} onClick={handleClick} {...rest}>
       {text}
     </button>
   );

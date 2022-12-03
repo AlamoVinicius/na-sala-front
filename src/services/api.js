@@ -27,7 +27,7 @@ export const getStation = async (name) => {
 
 // ========== booking ===================
 
-export const getAllReservationFromMonth = () => api.get("/booking");
+export const getAllReservationFromMonth = (params) => api.get("/booking", { params: params });
 
 export const getMyBookings = async (username) => {
   return await api.get(`/booking/${username}`);

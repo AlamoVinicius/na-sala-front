@@ -47,6 +47,15 @@ const UsersAdmin = () => {
         </div>
       ) : (
         <div style={{ marginTop: "20px" }}>
+          <ModalCustom
+            showModal={showModal}
+            setShowModal={setShowModal}
+            title="Excluir um usuário"
+            textBody={`Tem certeza que deseja excluir o usuário ${userdelete.username}`}
+            handleConfirmClick={() => {
+              handleDelete(userdelete);
+            }}
+          />
           {users.length !== 0 ? (
             <Table striped bordered hover style={{ marginTop: "20px" }}>
               <thead>
@@ -72,16 +81,6 @@ const UsersAdmin = () => {
                         >
                           deletar
                         </Button>
-                        <ModalCustom
-                          showModal={showModal}
-                          setShowModal={setShowModal}
-                          title="Excluir um usuário"
-                          textBody={`Tem certeza que deseja excluir o usuário ${userdelete.username}`}
-                          handleConfirmClick={() => {
-                            handleDelete(userdelete);
-                            console.log(userdelete);
-                          }}
-                        />
                       </td>
                     </tr>
                   );

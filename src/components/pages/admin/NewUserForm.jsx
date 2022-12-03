@@ -40,9 +40,9 @@ const NewUserForm = () => {
   };
 
   const handleConfirm = () => {
-    setShowModal(false)
-    navigate('/')
-  }
+    setShowModal(false);
+    navigate("/");
+  };
 
   return (
     <form onSubmit={handleSubmit}>

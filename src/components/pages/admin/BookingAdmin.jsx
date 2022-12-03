@@ -14,27 +14,36 @@ const BookingAdmin = () => {
   const [loadingFetchApi, setLoadingFetchApi] = useState();
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  // const [newArrayFormat, setNewArrayFormat] = useState([]);
+
+  const [rangeMonthParam, setRangeMonthParam] = useState([
+    moment().startOf("month").format(),
+    moment().endOf("month").format(),
+  ]);
 
   // const calendarValues = [new Date("2022/12/06"), new Date("2022/12/18"), new Date("2022/12/23")];
 
   useEffect(() => {
     (async () => {
       try {
-        setLoadingFetchApi(true);
-        const monthReservation = await getAllReservationFromMonth();
-        // console.log(monthReservation);
-        setAllBookingsMonth(monthReservation.data);
+        const monthReservation = await getAllReservationFromMonth(rangeMonthParam);
+        console.log(monthReservation.data.length);
+        setAllBookingsMonth(monthReservation.data.map((data) => convertDAte(data.finalDate)));
       } catch (error) {
         alert("ocorreu um erro ao tentar buscar os dados");
         console.log(error);
       } finally {
-        setLoadingFetchApi(false);
       }
     })();
-  }, []);
+  }, [rangeMonthParam]);
+
+  const handleParamsMonthBookings = async (props) => {
+    const startofMonth = moment(props.activeStartDate).startOf("month").format();
+    const finalofMonth = moment(props.activeStartDate).endOf("month").format();
+    setRangeMonthParam([startofMonth, finalofMonth]);
+  };
 
   const handleOnChange = async (e) => {
-    // alert(e);
     setShowAlert(false);
     setBookings([]);
     setIsLoading(true);
@@ -59,7 +68,6 @@ const BookingAdmin = () => {
   };
 
   const showHour = (booking) => {
-    // função responsavel de pegar os horários e converter corretamente para mostrar na tabela
     const startTime = new Date(booking.startDate);
     const finalTime = new Date(booking.finalDate);
     return `${String(startTime.getHours()).padStart(2, "0")}:${String(startTime.getMinutes()).padStart(2, "0")}
@@ -70,11 +78,8 @@ const BookingAdmin = () => {
     return moment(date).format("YYYY-MM-DD");
   };
 
-  const newArrayFormat = allBookingsMonth.map((data) => convertDAte(data.finalDate));
-  console.log(newArrayFormat[0]);
-
-  const showHighlight = ({ date }) => {
-    if (newArrayFormat.includes(convertDAte(date))) return "highlight";
+  const showHighlight = ({ date, view }) => {
+    if (view === "month" && allBookingsMonth.includes(convertDAte(date))) return "highlight";
   };
 
   const ShowLoading = () => (
@@ -86,13 +91,15 @@ const BookingAdmin = () => {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col className="background_Col">
           <p>Selecione o dia para verificar as reservas</p>
-          {loadingFetchApi ? (
-            <ShowLoading />
-          ) : (
-            <Calendar onChange={(e) => handleOnChange(e)} tileClassName={showHighlight} />
-          )}
+
+          <Calendar
+            onChange={(e) => handleOnChange(e)}
+            tileClassName={showHighlight}
+            onActiveStartDateChange={handleParamsMonthBookings}
+            className="custom_style"
+          />
         </Col>
         <Col>
           {showAlert && <Alert variant="danger">{errorMsg}</Alert>}
