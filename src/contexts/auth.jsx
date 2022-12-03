@@ -27,15 +27,18 @@ export const Authprovider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const loggedUser = await (await createSession(username, password)).data;
-      const token = loggedUser.token;
+      const response = await createSession(username, password);
+      const loggedUser = response.data;
+      console.log(loggedUser);
+      const token = loggedUser?.token;
       localStorage.setItem("user", JSON.stringify(loggedUser.user));
       localStorage.setItem("token", token);
       api.defaults.headers.Authorization = `Bearer ${token}`;
       setUser(loggedUser.user);
       navigate("/");
     } catch (error) {
-      setErrorMsg(error.response.data.error);
+      console.log(error.response.data);
+      setErrorMsg(error?.response?.data?.error || "ocorreu um erro ao tentar fazer login");
     }
   };
 
