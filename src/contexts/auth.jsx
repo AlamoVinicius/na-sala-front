@@ -27,6 +27,7 @@ export const Authprovider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
+      setLoading(true);
       const response = await createSession(username, password);
       const loggedUser = response.data;
       console.log(loggedUser);
@@ -39,6 +40,8 @@ export const Authprovider = ({ children }) => {
     } catch (error) {
       console.log(error.response.data);
       setErrorMsg(error?.response?.data?.error || "ocorreu um erro ao tentar fazer login");
+    } finally {
+      setLoading(false);
     }
   };
 

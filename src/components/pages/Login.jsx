@@ -1,19 +1,21 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 
+import { Spinner } from "react-bootstrap";
+
 import styles from "./Login.module.css";
-import logo from "../../assets/imgs/logo.png"
+import logo from "../../assets/imgs/logo.png";
 import Alert from "../layout/Alert";
 
 const Login = () => {
-  const { authenticated, login, errorMsg } = useContext(AuthContext);
+  const { authenticated, login, errorMsg, loading } = useContext(AuthContext);
 
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   const [showMessageError, setShowMessageError] = useState(false);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     login(user, password);
     !authenticated ? setShowMessageError(true) : setShowMessageError(false);
@@ -23,7 +25,6 @@ const Login = () => {
     <div className={styles.container_login}>
       <div className={styles.login_box}>
         <form onSubmit={handleSubmit}>
-
           <img src={logo} alt="na sala logo" />
           <label htmlFor="username">Username</label>
           <input
@@ -33,7 +34,7 @@ const Login = () => {
             name="username"
             id="username"
             value={user}
-            onChange={e => setUser(e.target.value)}
+            onChange={(e) => setUser(e.target.value)}
           />
           <label htmlFor="password">Senha</label>
           <input
@@ -41,13 +42,11 @@ const Login = () => {
             placeholder="digite a sua senha"
             id="password"
             value={password}
-            onChange={event => setPassword(event.target.value)}
+            onChange={(event) => setPassword(event.target.value)}
           />
-          {showMessageError ? (
-            <Alert severity={"error"} msg={errorMsg} />
-          ) : null}
+          {showMessageError ? <Alert severity={"error"} msg={errorMsg} /> : null}
           <div className={styles.btn_area}>
-            <button className={styles.btn}>Entrar</button>
+            <button className={styles.btn}>{loading ? <Spinner animation="border" size="sm" /> : "Entrar"} </button>
           </div>
         </form>
       </div>

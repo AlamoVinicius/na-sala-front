@@ -2,7 +2,8 @@ import axios from "axios";
 
 export const api = axios.create({
   // baseURL: "https://nasala-server.herokuapp.com/",
-  baseURL: "http://localhost:5000",
+  // baseURL: "http://localhost:5000",
+  baseURL: "https://na-sala-server-nyokv32p7-alamovinicius.vercel.app/",
   timeout: 15000,
 });
 
@@ -12,6 +13,8 @@ export const createSession = (username, password) => api.post("/sessions", { use
 export const getUsers = async () => {
   return await api.get("/users");
 };
+
+export const getInfoUser = async (id) => api.get(`/users/${id}`);
 
 export const createUser = async (user) => {
   return await api.post("/users", user);

@@ -27,7 +27,7 @@ const BookingAdmin = () => {
     (async () => {
       try {
         const monthReservation = await getAllReservationFromMonth(rangeMonthParam);
-        console.log(monthReservation.data.length);
+        // console.log(monthReservation.data.length);
         setAllBookingsMonth(monthReservation.data.map((data) => convertDAte(data.finalDate)));
       } catch (error) {
         alert("ocorreu um erro ao tentar buscar os dados");
