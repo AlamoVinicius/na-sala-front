@@ -11,7 +11,7 @@ const BookingAdmin = () => {
   const [bookings, setBookings] = useState([]);
   const [allBookingsMonth, setAllBookingsMonth] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingFetchApi, setLoadingFetchApi] = useState();
+  // const [loadingFetchApi, setLoadingFetchApi] = useState();
   const [showAlert, setShowAlert] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   // const [newArrayFormat, setNewArrayFormat] = useState([]);
