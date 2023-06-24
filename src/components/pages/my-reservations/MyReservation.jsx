@@ -34,7 +34,6 @@ export const MyReservationList = ({ bookings }) => {
   const handleConfirmClick = async (bookings) => {
     try {
       await deleteBooking(bookings._id);
-      console.log("reserva deletado com sucesso");
       document.location.reload();
     } catch (error) {
       console.log(error);

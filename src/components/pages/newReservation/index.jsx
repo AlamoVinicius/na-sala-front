@@ -30,7 +30,7 @@ const Newreservation = () => {
   const [loading, setLoading] = useState(false);
 
   const recoveryUser = localStorage.getItem("user");
-  const user = JSON.parse(recoveryUser); // transformar user em objeto pois ele vem como string do local storage
+  const user = JSON.parse(recoveryUser);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     submit(e, newReservation, user, stationSelected, setShowErrorMsg, setFinalShowPickTime, navigate);

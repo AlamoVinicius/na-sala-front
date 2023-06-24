@@ -8,6 +8,7 @@ import maca5 from "../assets/imgs/macas/maca5-salaB.jpeg";
 import maca6 from "../assets/imgs/macas/maca6-salaC.jpeg";
 import maca7 from "../assets/imgs/macas/maca7-salaC.jpeg";
 import maca8 from "../assets/imgs/macas/maca8-salaC.jpeg";
+import maca9 from "../assets/imgs/macas/maca9-salaC.jpg";
 
 export const macasImg = {
   "apoio braço sala A": apoio1,
@@ -20,4 +21,5 @@ export const macasImg = {
   "maca 6 sala C": maca6,
   "maca 7 sala C": maca7,
   "maca 8 sala C": maca8,
+  "maca 9 sala C": maca9,
 };
