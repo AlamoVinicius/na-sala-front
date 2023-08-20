@@ -4,7 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const ModalCustom = ({ showModal, setShowModal, title, textBody, handleConfirmClick }) => {
   return (
-    <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static" keyboard={false}>
+    <Modal show={showModal} onHide={setShowModal} backdrop="static" keyboard={false}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>

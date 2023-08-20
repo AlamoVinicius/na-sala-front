@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export const api = axios.create({
-  // baseURL: "https://nasala-server.herokuapp.com/",
-  // baseURL: "http://localhost:5000",
-  baseURL: "https://na-sala-server-nyokv32p7-alamovinicius.vercel.app/",
+  baseURL: process.env.REACT_APP_API_URL,
+  // baseURL: "http://localhost:5000/",
+  // baseURL: "https://na-sala-server-d6vi3acbc-alamovinicius.vercel.app/",
   timeout: 15000,
 });
 
@@ -22,6 +22,9 @@ export const createUser = async (user) => {
 
 export const deleteUser = async (id) => {
   return await api.delete(`/users/${id}`);
+};
+export const blockUser = async ({ userId, blocked }) => {
+  return await api.patch(`/users/${userId}/blocked`, { blocked });
 };
 // ========== stations/macas ============
 export const getStation = async (name) => {

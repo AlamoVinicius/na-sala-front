@@ -10,15 +10,18 @@ import Alert from "../layout/Alert";
 const Login = () => {
   const { authenticated, login, errorMsg, loading } = useContext(AuthContext);
 
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [credetinals, setCredentials] = useState({ username: "", password: "" });
 
   const [showMessageError, setShowMessageError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(user, password);
+    login(credetinals);
     !authenticated ? setShowMessageError(true) : setShowMessageError(false);
+  };
+
+  const handleChange = (e) => {
+    setCredentials({ ...credetinals, [e.target.name]: e.target.value });
   };
 
   return (
@@ -33,16 +36,17 @@ const Login = () => {
             autoComplete="on"
             name="username"
             id="username"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={credetinals.username}
+            onChange={handleChange}
           />
           <label htmlFor="password">Senha</label>
           <input
             type="password"
             placeholder="digite a sua senha"
             id="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            value={credetinals.password}
+            name="password"
+            onChange={handleChange}
           />
           {showMessageError ? <Alert severity={"error"} msg={errorMsg} /> : null}
           <div className={styles.btn_area}>

@@ -1,99 +1,113 @@
 .container_login {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url(../../assets/imgs/background-image.jpg);
-    background-size: cover;
-    background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../../assets/imgs/background-image.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
 .login_box {
-    box-sizing: border-box;
-    font-family: Helvetica;
-    border: none;
-    padding: 20px 30px;
-    text-align: center;
-    width: 400px;
-    backdrop-filter: blur(11px) saturate(180%);
-    -webkit-backdrop-filter: blur(11px) saturate(180%);
-    background-color: rgba(17, 25, 40, 0.788);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.125);
-    color: white;
-    box-shadow: 4px 4px 8px black;
+  box-sizing: border-box;
+  font-family: Helvetica;
+  border: none;
+  padding: 20px 30px;
+  text-align: center;
+  width: 400px;
+  backdrop-filter: blur(11px) saturate(180%);
+  -webkit-backdrop-filter: blur(11px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.788);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  color: white;
+  box-shadow: 4px 4px 8px black;
 }
 
 .login_box input {
-    border-bottom: 2px solid rgb(89, 89, 89);
-    padding: 10px;
-    margin-bottom: 20px;
-    outline: none;
-    font-size: 1em;
-    background-color: transparent;
-    color: white;
+  border-bottom: 2px solid rgb(89, 89, 89);
+  padding: 10px;
+  margin-bottom: 20px;
+  outline: none;
+  font-size: 1em;
+  background-color: transparent;
+  color: white;
 }
 
-.login_box label, input {
-    border: none;   
-    display: block;
-    width: 100%;
-    text-align: left;
+.login_box label,
+input {
+  border: none;
+  display: block;
+  width: 100%;
+  text-align: left;
 }
 
 .login_box label {
-    font-weight: bold;
-    font-size: .8em;
+  font-weight: bold;
+  font-size: 0.8em;
 }
 
 .login_box input:focus {
-    border-bottom: 2px solid #333;
+  border-bottom: 2px solid #333;
 }
 
 .login_box img {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 .btn_area {
-    text-align: center;
-    padding: 25px;
+  text-align: center;
+  padding: 25px;
 }
 
 .btn {
-    cursor: pointer;
-    --green: rgb(255, 251, 251);
-    font-size: 15px;
-    padding: 0.7em 2.7em;
-    letter-spacing: 0.06em;
-    position: relative;
-    font-family: inherit;
-    border-radius: 0.6em;
-    overflow: hidden;
-    transition: all 0.3s;
-    line-height: 1.4em;
-    border: 2px solid var(--green);
-    background: linear-gradient(to right, rgb(255, 251, 251, 0.1) 1%, transparent 40%,transparent 60% , rgb(255, 251, 251, 0.1) 100%);
-    color: var(--green);
-    box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.4), 0 0 9px 3px rgb(255, 251, 251, 0.1);
-   }  /*-0.3 transp rgba same color*/
-   
-   .btn:hover {
-    color: rgb(209, 209, 209);
-    box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.6), 0 0 9px 3px rgb(255, 251, 251, 0.2);
-   } /*-0. transp rgba same color*/
-   
-   .btn:before {
-    content: "";
-    position: absolute;
-    left: -4em;
-    width: 4em;
-    height: 100%;
-    top: 0;
-    transition: transform .4s ease-in-out;
-    background: linear-gradient(to right, transparent 1%, rgb(255, 251, 251, 0.1) 40%,rgb(255, 251, 251, 0.1) 60% , transparent 100%);  /*rgba same color*/
-   }
-   
-   .btn:hover:before {
-    transform: translateX(15em);
-   }
+  cursor: pointer;
+  width: 200px;
+  --green: rgb(255, 251, 251);
+  font-size: 15px;
+  padding: 0.7em 2.7em;
+  letter-spacing: 0.06em;
+  position: relative;
+  font-family: inherit;
+  border-radius: 0.6em;
+  overflow: hidden;
+  transition: all 0.3s;
+  line-height: 1.4em;
+  border: 2px solid var(--green);
+  background: linear-gradient(
+    to right,
+    rgb(255, 251, 251, 0.1) 1%,
+    transparent 40%,
+    transparent 60%,
+    rgb(255, 251, 251, 0.1) 100%
+  );
+  color: var(--green);
+  box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.4), 0 0 9px 3px rgb(255, 251, 251, 0.1);
+} /*-0.3 transp rgba same color*/
+
+.btn:hover {
+  color: rgb(209, 209, 209);
+  box-shadow: inset 0 0 10px rgb(255, 251, 251, 0.6), 0 0 9px 3px rgb(255, 251, 251, 0.2);
+} /*-0. transp rgba same color*/
+
+.btn:before {
+  content: "";
+  position: absolute;
+  left: -4em;
+  width: 4em;
+  height: 100%;
+  top: 0;
+  transition: transform 0.4s ease-in-out;
+  background: linear-gradient(
+    to right,
+    transparent 1%,
+    rgb(255, 251, 251, 0.1) 40%,
+    rgb(255, 251, 251, 0.1) 60%,
+    transparent 100%
+  ); /*rgba same color*/
+}
+
+.btn:hover:before {
+  transform: translateX(15em);
+}

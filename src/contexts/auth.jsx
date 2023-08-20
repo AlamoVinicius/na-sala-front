@@ -25,12 +25,12 @@ export const Authprovider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = async (username, password) => {
+  const login = async ({ username, password }) => {
     try {
+      setErrorMsg(null);
       setLoading(true);
-      const response = await createSession(username, password);
+      const response = await createSession(username.trim(), password.trim());
       const loggedUser = response.data;
-      console.log(loggedUser);
       const token = loggedUser?.token;
       localStorage.setItem("user", JSON.stringify(loggedUser.user));
       localStorage.setItem("token", token);
@@ -38,8 +38,8 @@ export const Authprovider = ({ children }) => {
       setUser(loggedUser.user);
       navigate("/");
     } catch (error) {
-      console.log(error.response.data);
-      setErrorMsg(error?.response?.data?.error || "ocorreu um erro ao tentar fazer login");
+      console.log(error);
+      setErrorMsg(error?.response?.data?.error ?? "ocorreu um erro ao tentar fazer login");
     } finally {
       setLoading(false);
     }
@@ -54,6 +54,18 @@ export const Authprovider = ({ children }) => {
     setUser(null);
     navigate("/login");
   };
+
+  api.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error?.response?.status === 403 && error?.response?.data?.error === "User is blocked") {
+        logout();
+      }
+      return Promise.reject(error);
+    }
+  );
 
   //user != null authenticated = true
   //user == null authenticated = false

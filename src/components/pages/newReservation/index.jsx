@@ -26,7 +26,7 @@ const Newreservation = () => {
   const [showPickStationAvailable, setShowPickStationAvailable] = useState(false);
   const [stationSelected, setStationSelected] = useState();
   const [stationsAvailable, setStationsAvailable] = useState([]);
-  const [showErrorMsg, setShowErrorMsg] = useState(null);
+  const [showErrorMsg, setShowErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   const recoveryUser = localStorage.getItem("user");

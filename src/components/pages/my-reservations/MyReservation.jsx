@@ -8,7 +8,7 @@ import styles from "./MyReservation.module.css";
 import ModalCustom from "../../modal/ModalCustom";
 import { macasImg } from "../../../utils/constants";
 
-export const MyReservationList = ({ bookings }) => {
+export const MyReservationList = ({ bookings, handleDeleteSchedule }) => {
   const [showList, setShowList] = useState(true);
   const [stationSelected, setStationSelected] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -29,16 +29,6 @@ export const MyReservationList = ({ bookings }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleConfirmClick = async (bookings) => {
-    try {
-      await deleteBooking(bookings._id);
-      document.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-    setShowModal(false);
   };
 
   return (
@@ -69,7 +59,10 @@ export const MyReservationList = ({ bookings }) => {
         showModal={showModal}
         setShowModal={setShowModal}
         title="Tem certeza que deseja exluir a reserva?"
-        handleConfirmClick={() => handleConfirmClick(bookings)}
+        handleConfirmClick={() => {
+          setShowModal(false);
+          handleDeleteSchedule(bookings._id);
+        }}
       />
     </>
   );

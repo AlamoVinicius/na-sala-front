@@ -1,4 +1,6 @@
+import dayjs from "dayjs";
 import { availableStations, createBooking } from "../../../services/api";
+import { toast } from "react-toastify";
 
 export const submit = async (
   e,
@@ -24,7 +26,8 @@ export const submit = async (
   };
   try {
     await createBooking(reservation);
-    navigate("/myreservations", { state: { message: "Reserva criada com sucesso!" } });
+    navigate("/myreservations");
+    toast.success("Reserva criada com sucesso!");
   } catch (err) {
     console.log(err);
     setShowErrorMsg("Ocorreu algum erro ao realizar a reserva");
@@ -51,7 +54,13 @@ export const finalTime = (newReservation, e, setNewReservation) => {
   const finalDate = new Date( //  format yyyy/mm/dd hh:mm is ok
     `${initialDate.getFullYear()}/${initialDate.getMonth() + 1}/${initialDate.getDate()} ${e.target.value}`
   );
-  setNewReservation({ ...newReservation, [e.target.name]: finalDate });
+  let finalDatewithDayjs = dayjs(finalDate, "YYYY/MM/DD HH:mm").toISOString();
+
+  if (finalDate < initialDate) {
+    finalDatewithDayjs = dayjs(finalDate).add(1, "day").toISOString();
+  }
+
+  setNewReservation({ ...newReservation, [e.target.name]: finalDatewithDayjs });
 };
 
 export const verifyAvailable = async (
@@ -63,6 +72,7 @@ export const verifyAvailable = async (
   setLoading
 ) => {
   e.preventDefault();
+
   try {
     setLoading(true);
     const initialDate = new Date(newReservation.startDate);
