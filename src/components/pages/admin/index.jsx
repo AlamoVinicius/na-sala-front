@@ -9,6 +9,7 @@ import styles from "./index.module.css";
 import UsersAdmin from "./UsersAdmin";
 import BookingAdmin from "./BookingAdmin";
 import NewUserForm from "./NewUserForm";
+import { useCallback } from "react";
 
 const AdminPage = () => {
   const userNivel = JSON.parse(localStorage.getItem("user"));
@@ -27,14 +28,19 @@ const AdminPage = () => {
   const handleGetUsers = () => {
     setShowUserList(true);
     setShowBookingControll(false);
-    setShowNewUser(false)
+    setShowNewUser(false);
   };
 
   const handleGeBooking = () => {
     setShowUserList(false);
     setShowBookingControll(true);
-    setShowNewUser(false)
+    setShowNewUser(false);
   };
+
+  const handleFinishREgisterUser = useCallback(() => {
+    setShowNewUser(false);
+    setShowUserList(true);
+  }, []);
 
   return (
     <div>
@@ -68,7 +74,7 @@ const AdminPage = () => {
           )}
           {showNewUser && (
             <Col sm={9}>
-              <NewUserForm />
+              <NewUserForm handleFinishREgisterUser={handleFinishREgisterUser} />
             </Col>
           )}
         </Row>

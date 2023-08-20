@@ -7,6 +7,7 @@ import Alert from "../../layout/Alert";
 
 import { HiUserRemove, HiOutlineXCircle, HiOutlineCheckCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 
 const UsersAdmin = () => {
   const [users, setUsers] = useState([]);
@@ -22,10 +23,10 @@ const UsersAdmin = () => {
       try {
         const users = await getUsers();
         setUsers(users.data);
-        setIsloading(false);
       } catch (error) {
         console.log(error);
         setErrorMsg("erro ao carregar os usuários");
+      } finally {
         setIsloading(false);
       }
     };
@@ -34,18 +35,21 @@ const UsersAdmin = () => {
 
   const handleDelete = async (user) => {
     try {
+      setIsloading(true);
       const id = user._id;
       await deleteUser(id);
-      document.location.reload();
+      setSelectUser("");
     } catch (err) {
       console.log(err);
     } finally {
       setShowModalDeleteUser(false);
+      setIsloading(false);
     }
   };
 
   const handleBlockUser = async ({ user, blocked }) => {
     try {
+      setIsloading(true);
       const response = await blockUser({ userId: user._id, blocked });
 
       toast.success(response?.data?.message ?? "Usuário bloqueado com sucesso!");
@@ -55,15 +59,14 @@ const UsersAdmin = () => {
       toast.error("Erro ao bloquear usuário");
     } finally {
       setModalBlockUser(false);
+      setIsloading(false);
     }
   };
 
   return (
     <>
       {isloading ? (
-        <div style={{ justifyContent: "center", textAlign: "center" }}>
-          <Spinner animation="border" />
-        </div>
+        <BackdropLoading />
       ) : (
         <div style={{ marginTop: "20px" }}>
           {users.length !== 0 ? (

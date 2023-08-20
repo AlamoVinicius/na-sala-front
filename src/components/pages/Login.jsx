@@ -6,6 +6,7 @@ import { Spinner } from "react-bootstrap";
 import styles from "./Login.module.css";
 import logo from "../../assets/imgs/logo.png";
 import Alert from "../layout/Alert";
+import { BackdropLoading } from "../feedbacks/LoadingBackDrop";
 
 const Login = () => {
   const { authenticated, login, errorMsg, loading } = useContext(AuthContext);
@@ -50,10 +51,11 @@ const Login = () => {
           />
           {showMessageError ? <Alert severity={"error"} msg={errorMsg} /> : null}
           <div className={styles.btn_area}>
-            <button className={styles.btn}>{loading ? <Spinner animation="border" size="sm" /> : "Entrar"} </button>
+            <button className={styles.btn}>ENTRAR</button>
           </div>
         </form>
       </div>
+      {loading && <BackdropLoading />}
     </div>
   );
 };

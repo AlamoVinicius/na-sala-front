@@ -6,6 +6,7 @@ import moment from "moment";
 import Calendar from "react-calendar";
 
 import { Container, Row, Col, Spinner, Alert, Table } from "react-bootstrap";
+import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 
 const BookingAdmin = () => {
   const [bookings, setBookings] = useState([]);
@@ -26,6 +27,8 @@ const BookingAdmin = () => {
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true);
+
         const monthReservation = await getAllReservationFromMonth(rangeMonthParam);
         // console.log(monthReservation.data.length);
         setAllBookingsMonth(monthReservation.data.map((data) => convertDAte(data.finalDate)));
@@ -33,6 +36,7 @@ const BookingAdmin = () => {
         alert("ocorreu um erro ao tentar buscar os dados");
         console.log(error);
       } finally {
+        setIsLoading(false);
       }
     })();
   }, [rangeMonthParam]);
@@ -103,34 +107,31 @@ const BookingAdmin = () => {
         </Col>
         <Col>
           {showAlert && <Alert variant="danger">{errorMsg}</Alert>}
-          {isLoading ? (
-            <ShowLoading />
-          ) : (
-            bookings.length > 0 && (
-              <Table striped bordered hover style={{ marginTop: "20px" }}>
-                <thead>
-                  <tr>
-                    <th>Maca</th>
-                    <th>Tatuador</th>
-                    <th>Horário</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((booking) => {
-                    return (
-                      <tr key={booking._id}>
-                        <td>{booking.stationName}</td>
-                        <td>{booking.username}</td>
-                        <td>{showHour(booking)}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            )
+          {bookings.length > 0 && (
+            <Table striped bordered hover style={{ marginTop: "20px" }}>
+              <thead>
+                <tr>
+                  <th>Maca</th>
+                  <th>Tatuador</th>
+                  <th>Horário</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.map((booking) => {
+                  return (
+                    <tr key={booking._id}>
+                      <td>{booking.stationName}</td>
+                      <td>{booking.username}</td>
+                      <td>{showHour(booking)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
           )}
         </Col>
       </Row>
+      {isLoading && <BackdropLoading />}
     </Container>
   );
 };

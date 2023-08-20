@@ -9,9 +9,11 @@ export const submit = async (
   stationSelected,
   setShowErrorMsg,
   setFinalShowPickTime,
-  navigate
+  navigate,
+  setLoadingConfirmReservation
 ) => {
   e.preventDefault();
+  setLoadingConfirmReservation(true);
   const today = Date.now();
   const dateSelected = new Date(newReservation.startDate).getTime();
   if (dateSelected < today) {
@@ -26,11 +28,13 @@ export const submit = async (
   };
   try {
     await createBooking(reservation);
-    navigate("/myreservations");
     toast.success("Reserva criada com sucesso!");
+    navigate("/myreservations");
   } catch (err) {
     console.log(err);
-    setShowErrorMsg("Ocorreu algum erro ao realizar a reserva");
+    toast.error("Ocorreu algum erro ao realizar a reserva");
+  } finally {
+    setLoadingConfirmReservation(false);
   }
 };
 

@@ -19,6 +19,7 @@ import {
   handlePickSelected,
   ShowDateReservation,
 } from "./NewReservation";
+import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 
 const Newreservation = () => {
   const [newReservation, setNewReservation] = useState({});
@@ -28,12 +29,22 @@ const Newreservation = () => {
   const [stationsAvailable, setStationsAvailable] = useState([]);
   const [showErrorMsg, setShowErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingConfirmReservation, setLoadingConfirmReservation] = useState(false);
 
   const recoveryUser = localStorage.getItem("user");
   const user = JSON.parse(recoveryUser);
   const navigate = useNavigate();
   const handleSubmit = (e) => {
-    submit(e, newReservation, user, stationSelected, setShowErrorMsg, setFinalShowPickTime, navigate);
+    submit(
+      e,
+      newReservation,
+      user,
+      stationSelected,
+      setShowErrorMsg,
+      setFinalShowPickTime,
+      navigate,
+      setLoadingConfirmReservation
+    );
   };
 
   return (
@@ -70,7 +81,7 @@ const Newreservation = () => {
                   handleOnChange={(e) => finalTime(newReservation, e, setNewReservation)}
                 />
                 <FormButton
-                  text={loading ? <Spinner size="sm" animation="border" /> : "Verificar Disponibilidade"}
+                  text="Verificar Disponibilidade"
                   width={210}
                   disabled={loading}
                   handleClick={(e) =>
@@ -88,31 +99,25 @@ const Newreservation = () => {
             ) : null}
           </Col>
           {showPickStationAvailable ? (
-            loading ? (
-              <div className={styles.carregando_area}>
-                <Spinner animation="border" />
-              </div>
-            ) : (
-              <Col sm={6}>
-                <h2>Macas disponíveis</h2>
-                <ListGroup>
-                  {stationsAvailable.map((station) => {
-                    return (
-                      <ListGroup.Item className={styles.list_area} key={station._id}>
-                        <img src={macasImg[station.name]} alt="Equipamento" />
-                        <span>{station.name}</span>
-                        <FormButton
-                          text="Selecionar"
-                          handleClick={(e) =>
-                            handlePickSelected(e, station, setStationSelected, setShowPickStationAvailable)
-                          }
-                        />
-                      </ListGroup.Item>
-                    );
-                  })}
-                </ListGroup>
-              </Col>
-            )
+            <Col sm={6}>
+              <h2>Macas disponíveis</h2>
+              <ListGroup>
+                {stationsAvailable.map((station) => {
+                  return (
+                    <ListGroup.Item className={styles.list_area} key={station._id}>
+                      <img src={macasImg[station.name]} alt="Equipamento" />
+                      <span>{station.name}</span>
+                      <FormButton
+                        text="Selecionar"
+                        handleClick={(e) =>
+                          handlePickSelected(e, station, setStationSelected, setShowPickStationAvailable)
+                        }
+                      />
+                    </ListGroup.Item>
+                  );
+                })}
+              </ListGroup>
+            </Col>
           ) : null}
 
           {stationSelected ? (
@@ -128,7 +133,11 @@ const Newreservation = () => {
                   <Card.Text>
                     <strong>Tatuador: </strong> {user.username}
                   </Card.Text>
-                  <FormButton text="Confirmar" handleClick={(e) => handleSubmit(e)} />
+                  <FormButton
+                    text="Confirmar"
+                    handleClick={(e) => handleSubmit(e)}
+                    disabled={loadingConfirmReservation}
+                  />
                   <FormButton
                     text="Cancelar"
                     handleClick={(e) => {
@@ -144,6 +153,7 @@ const Newreservation = () => {
           ) : null}
         </Row>
       </Container>
+      {(loading || loadingConfirmReservation) && <BackdropLoading />}
     </form>
   );
 };

@@ -1,31 +1,34 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 import { deleteBooking, getMyBookings } from "../../../services/api";
 
 import NavBar from "../../navbar/Navbar";
-import { Container, Alert, Spinner } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import { MyReservationList } from "./MyReservation";
-import styles from "./MyReservation.module.css";
 import { toast } from "react-toastify";
+import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 
 const Myreservations = () => {
   const [bookings, setBookings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleDeleteSchedule = useCallback(async (scheduleId) => {
     try {
+      setIsLoading(true);
       await deleteBooking(scheduleId);
       toast.success("Reserva removida com sucesso");
       setBookings((prev) => prev.filter((schedule) => schedule._id !== scheduleId));
     } catch (error) {
       toast.error(error?.response?.data.message ?? "ocorreu um erro ao remover a reserva");
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
     try {
+      setIsLoading(true);
       const get = async () => {
         const user = JSON.parse(localStorage.getItem("user"));
         const bookings = await getMyBookings(user.username);
@@ -50,16 +53,12 @@ const Myreservations = () => {
         {/* {showMsg && <Alert variant="success">{msg}</Alert>} */}
         <h2>Minhas reservas</h2>
         <p>Reservas a partir do dia atual</p>
-        {isLoading && (
-          <div className={styles.spinner}>
-            <Spinner animation="border" />
-          </div>
-        )}
         {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
         {bookings.map((booking) => {
           return <MyReservationList key={booking._id} bookings={booking} handleDeleteSchedule={handleDeleteSchedule} />;
         })}
       </Container>
+      {isLoading && <BackdropLoading />}
     </div>
   );
 };

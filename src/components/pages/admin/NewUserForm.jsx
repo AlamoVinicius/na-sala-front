@@ -7,8 +7,10 @@ import { InputEffect } from "../../inputs/Inputs";
 import { FormButton } from "../../buttons/Buttons";
 import Alert from "../../layout/Alert";
 import ModalCustom from "../../modal/ModalCustom";
+import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+import { toast } from "react-toastify";
 
-const NewUserForm = () => {
+const NewUserForm = ({ handleFinishREgisterUser }) => {
   const [userName, seUsername] = useState();
   const [pass, setPass] = useState();
   const [confirmedPass, setConfirmedPass] = useState();
@@ -16,6 +18,7 @@ const NewUserForm = () => {
   const [nivelUser, setNivelUser] = useState(null);
   const [textNivelUser, setTextNivelUser] = useState("Nivel de usuário");
   const [showModal, setShowModal] = useState(false);
+  const [loadingRegisterUser, setLoadingRegisterUser] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -32,10 +35,14 @@ const NewUserForm = () => {
       nivelUser: nivelUser,
     };
     try {
+      setLoadingRegisterUser(true);
       await createUser(newUser);
-      setShowModal(true);
+      toast.success("Usuário cadastrado com sucesso!");
+      handleFinishREgisterUser();
     } catch (err) {
-      setErrorMsg("falha ao tentar cadastrar novo usuário, verifique os dados ou conexão");
+      toast.error("Erro ao tentar cadastrar novo usuário");
+    } finally {
+      setLoadingRegisterUser(false);
     }
   };
 
@@ -100,6 +107,7 @@ const NewUserForm = () => {
           handleConfirmClick={() => handleConfirm()}
         />
       </Container>
+      {loadingRegisterUser && <BackdropLoading />}
     </form>
   );
 };
