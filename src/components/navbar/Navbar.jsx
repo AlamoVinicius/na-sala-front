@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../contexts/auth";
+import React from "react";
+import { useAuthContext } from "../../contexts/auth";
 import { Link } from "react-router-dom";
 
 import { Navbar, Container, Nav } from "react-bootstrap";
@@ -7,7 +7,7 @@ import styles from "./Navbar.module.css";
 import logo from "../../assets/imgs/icone-naSala.png";
 
 const NavBar = () => {
-  const { logout, user } = useContext(AuthContext);
+  const { logout, user } = useAuthContext();
 
   const handleLogout = () => {
     logout();
@@ -27,7 +27,7 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            {user.nivelUser === 1 ? (
+            {user.nivelUser > 0 ? (
               <Link to={"/admin"} className={styles.navbar_target}>
                 Admin
               </Link>
@@ -40,7 +40,9 @@ const NavBar = () => {
             <Link className={styles.navbar_target} to={"/myreservations"}>
               Minhas reservas
             </Link>
-            <Nav.Link className={styles.navbar_target} onClick={handleLogout}>sair</Nav.Link>
+            <Nav.Link className={styles.navbar_target} onClick={handleLogout}>
+              sair
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

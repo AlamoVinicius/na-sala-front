@@ -1,10 +1,13 @@
 // informações globais
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { api, createSession } from "../services/api";
+import { toast } from "react-toastify";
 
-export const AuthContext = createContext(); // cria um contexto global para aplicação
+export const AuthContext = createContext();
+
+export const useAuthContext = () => useContext(AuthContext);
 
 export const Authprovider = ({ children }) => {
   const navigate = useNavigate();
@@ -12,7 +15,6 @@ export const Authprovider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // impedir aplicação perder o login ao dar refresh:
   useEffect(() => {
     const recoveredUser = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -63,6 +65,7 @@ export const Authprovider = ({ children }) => {
       if (error?.response?.status === 403 && error?.response?.data?.error === "User is blocked") {
         logout();
       }
+
       return Promise.reject(error);
     }
   );

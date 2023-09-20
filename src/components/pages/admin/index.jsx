@@ -12,18 +12,10 @@ import NewUserForm from "./NewUserForm";
 import { useCallback } from "react";
 
 const AdminPage = () => {
-  const userNivel = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const [showUserList, setShowUserList] = useState(false);
   const [showBookingControll, setShowBookingControll] = useState(false);
   const [showNewUser, setShowNewUser] = useState(false);
-
-  useEffect(() => {
-    if (userNivel.nivelUser !== 1) {
-      navigate("/");
-      return;
-    }
-  });
 
   const handleGetUsers = () => {
     setShowUserList(true);
@@ -53,6 +45,9 @@ const AdminPage = () => {
             </div>
             <div className={styles.btn_area}>
               <FormButton text="reservas" handleClick={() => handleGeBooking()} />
+            </div>
+            <div className={styles.btn_area}>
+              <FormButton text="Gerenciar items reserváveis" handleClick={() => navigate("/itemsManagement")} />
             </div>
           </Col>
           {showUserList && (

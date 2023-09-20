@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import HomePage from "./components/pages/HomePage";
 import Login from "./components/pages/Login";
@@ -8,8 +8,10 @@ import NewReservationPage from "./components/pages/newReservation/";
 import Myreservations from "./components/pages/my-reservations";
 import NotFound from "./components/pages/NotFound";
 import AdminPage from "./components/pages/admin";
+import ItemsManagent from "./components/pages/ItemManagement";
 
-import { Authprovider, AuthContext } from "./contexts/auth";
+import { Authprovider, AuthContext, useAuthContext } from "./contexts/auth";
+import NavBar from "./components/navbar/Navbar";
 const AppRoutes = () => {
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);
@@ -21,6 +23,15 @@ const AppRoutes = () => {
       return <Navigate to="/login" />;
     }
     return children;
+  };
+
+  const AdminRoutes = ({ children }) => {
+    const { user } = useAuthContext();
+    if (user.nivelUser > 0) {
+      return children;
+    } else {
+      return <Navigate to="/login" />;
+    }
   };
 
   return (
@@ -57,7 +68,21 @@ const AppRoutes = () => {
             path="/admin"
             element={
               <Private>
-                <AdminPage />
+                <AdminRoutes>
+                  <AdminPage />
+                </AdminRoutes>
+              </Private>
+            }
+          />
+          <Route
+            path="/itemsManagement"
+            element={
+              <Private>
+                <AdminRoutes>
+                  <NavBar />
+
+                  <ItemsManagent />
+                </AdminRoutes>
               </Private>
             }
           />

@@ -7,11 +7,14 @@ import { Container, Alert } from "react-bootstrap";
 import { MyReservationList } from "./MyReservation";
 import { toast } from "react-toastify";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+import { useAuthContext } from "../../../contexts/auth";
 
 const Myreservations = () => {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  const { user } = useAuthContext();
 
   const handleDeleteSchedule = useCallback(async (scheduleId) => {
     try {
@@ -30,7 +33,6 @@ const Myreservations = () => {
     try {
       setIsLoading(true);
       const get = async () => {
-        const user = JSON.parse(localStorage.getItem("user"));
         const bookings = await getMyBookings(user.username);
         if (bookings?.data?.length === 0) {
           setErrorMsg("não existem reservas feita por você");
@@ -44,7 +46,7 @@ const Myreservations = () => {
     } catch (error) {
       setErrorMsg("ocorreu algum erro ao buscar as informações");
     }
-  }, []);
+  }, [user.username]);
 
   return (
     <div>

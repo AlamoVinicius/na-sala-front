@@ -7,6 +7,8 @@ import styles from "./Login.module.css";
 import logo from "../../assets/imgs/logo.png";
 import Alert from "../layout/Alert";
 import { BackdropLoading } from "../feedbacks/LoadingBackDrop";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { authenticated, login, errorMsg, loading } = useContext(AuthContext);
@@ -14,6 +16,8 @@ const Login = () => {
   const [credetinals, setCredentials] = useState({ username: "", password: "" });
 
   const [showMessageError, setShowMessageError] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +28,10 @@ const Login = () => {
   const handleChange = (e) => {
     setCredentials({ ...credetinals, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (authenticated) navigate("/");
+  }, [authenticated, navigate]);
 
   return (
     <div className={styles.container_login}>

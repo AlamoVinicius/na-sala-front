@@ -38,6 +38,16 @@ export const submit = async (
   }
 };
 
+/**
+ * Verify the availability of stations for a new reservation.
+ *
+ * @param {Event} e - The event object.
+ * @param {Object} newReservation - The new reservation object.
+ * @param {function} setStationsAvailable - The function to set the available stations.
+ * @param {function} setShowPickStationAvailable - The function to set the flag for showing the available stations.
+ * @param {function} setStationSelected - The function to set the flag for selecting a station.
+ * @param {function} setLoading - The function to set the loading state.
+ */
 export const startTime = (
   e,
   setNewReservation,

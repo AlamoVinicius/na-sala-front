@@ -27,9 +27,19 @@ export const blockUser = async ({ userId, blocked }) => {
   return await api.patch(`/users/${userId}/blocked`, { blocked });
 };
 // ========== stations/macas ============
-export const getStation = async (name) => {
-  return await api.get(`/stations/${name}`);
+export const getStation = async (stationName) => {
+  return await api.get(`/stations/${stationName}`);
 };
+
+export const getAllStations = async () => {
+  return await api.get(`/stations`);
+};
+
+export const createStation = async (station) => {
+  return await api.post("/stations", station, { headers: { "Content-Type": "multipart/form-data" } });
+};
+
+export const deleteStation = async (idStation) => await api.delete(`/stations/${idStation}`);
 
 // ========== booking ===================
 

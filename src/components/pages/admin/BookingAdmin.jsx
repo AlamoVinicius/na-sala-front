@@ -7,6 +7,7 @@ import Calendar from "react-calendar";
 
 import { Container, Row, Col, Spinner, Alert, Table } from "react-bootstrap";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+import { toast } from "react-toastify";
 
 const BookingAdmin = () => {
   const [bookings, setBookings] = useState([]);
@@ -33,7 +34,7 @@ const BookingAdmin = () => {
         // console.log(monthReservation.data.length);
         setAllBookingsMonth(monthReservation.data.map((data) => convertDAte(data.finalDate)));
       } catch (error) {
-        alert("ocorreu um erro ao tentar buscar os dados");
+        toast.error(error?.response?.data?.message ?? "Ocorreu um erro ao deletar o usuário");
         console.log(error);
       } finally {
         setIsLoading(false);

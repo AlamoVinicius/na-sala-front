@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 
-import { getStation, deleteBooking } from "../../../services/api";
+import { getStation } from "../../../services/api";
 
 import { ListGroup, Card } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./MyReservation.module.css";
 import ModalCustom from "../../modal/ModalCustom";
-import { macasImg } from "../../../utils/constants";
+import noImagePlaceholder from "../../../assets/imgs/no-image-icon-23485.png";
+import { toast } from "react-toastify";
 
 export const MyReservationList = ({ bookings, handleDeleteSchedule }) => {
   const [showList, setShowList] = useState(true);
-  const [stationSelected, setStationSelected] = useState();
+  const [stationSelected, setStationSelected] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const date = new Date(bookings.startDate).toLocaleDateString();
@@ -24,10 +25,15 @@ export const MyReservationList = ({ bookings, handleDeleteSchedule }) => {
     e.preventDefault();
     try {
       const station = await getStation(stationName);
-      setStationSelected(station.data[0]);
+      setStationSelected(station.data);
       setShowList(false);
     } catch (error) {
-      console.log(error);
+      if (error?.response?.status === 404) {
+        toast.error("Não foi possível encontrar este item, o item pode ter sido removido");
+      } else {
+        toast.error("ocorreu um erro ao buscar o item");
+      }
+      setStationSelected(null);
     }
   };
 
@@ -46,7 +52,7 @@ export const MyReservationList = ({ bookings, handleDeleteSchedule }) => {
         </ListGroup>
       ) : (
         <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={macasImg[stationSelected.name]} />
+          <Card.Img variant="top" src={stationSelected.imageURL || noImagePlaceholder} />
           <Card.Body>
             <Card.Title>{stationSelected.name}</Card.Title>
             <div className={styles.button}>

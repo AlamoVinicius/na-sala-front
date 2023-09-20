@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getUsers, deleteUser, blockUser } from "../../../services/api";
 
-import { Table, Button, Spinner, Stack } from "react-bootstrap";
+import { Table, Button, Stack } from "react-bootstrap";
 import ModalCustom from "../../modal/ModalCustom";
 import Alert from "../../layout/Alert";
 
 import { HiUserRemove, HiOutlineXCircle, HiOutlineCheckCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+
+const userRole = ["user", "admin", "owner"];
 
 const UsersAdmin = () => {
   const [users, setUsers] = useState([]);
@@ -40,7 +42,7 @@ const UsersAdmin = () => {
       await deleteUser(id);
       setSelectUser("");
     } catch (err) {
-      console.log(err);
+      toast.error(err?.response?.data?.message ?? "Ocorreu um erro ao deletar o usuário");
     } finally {
       setShowModalDeleteUser(false);
       setIsloading(false);
@@ -56,7 +58,7 @@ const UsersAdmin = () => {
       setSelectUser("");
     } catch (err) {
       console.log(err);
-      toast.error("Erro ao bloquear usuário");
+      toast.error(err?.response?.data?.message ?? "Erro ao bloquear usuário");
     } finally {
       setModalBlockUser(false);
       setIsloading(false);
@@ -86,7 +88,7 @@ const UsersAdmin = () => {
                       <td>
                         {user.username} {blocked && <span style={{ color: "red" }}>(bloqueado)</span>}
                       </td>
-                      <td>{user.nivelUser === 1 ? "Admin" : "User"}</td>
+                      <td>{userRole[user.nivelUser]}</td>
                       <td>
                         <Stack className="d-flex flex-column gap-2 p-2" style={{ width: 150 }}>
                           <Button

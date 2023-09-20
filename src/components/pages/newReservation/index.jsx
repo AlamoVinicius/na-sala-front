@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// import { getStations } from "../../../services/api";
 import { macasImg } from "../../../utils/constants";
 
 import NavBar from "../../navbar/Navbar";
-import { Container, Row, Col, ListGroup, Card, Spinner } from "react-bootstrap";
+import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./index.module.css";
 import { InputEffect } from "../../inputs/Inputs";
@@ -20,6 +19,7 @@ import {
   ShowDateReservation,
 } from "./NewReservation";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+import { NoImage } from "../../feedbacks/NoImage";
 
 const Newreservation = () => {
   const [newReservation, setNewReservation] = useState({});
@@ -105,7 +105,11 @@ const Newreservation = () => {
                 {stationsAvailable.map((station) => {
                   return (
                     <ListGroup.Item className={styles.list_area} key={station._id}>
-                      <img src={macasImg[station.name]} alt="Equipamento" />
+                      {station.imageURL ? (
+                        <img src={station.imageURL ?? macasImg[station.name]} alt="Equipamento" />
+                      ) : (
+                        <NoImage />
+                      )}
                       <span>{station.name}</span>
                       <FormButton
                         text="Selecionar"
@@ -123,7 +127,7 @@ const Newreservation = () => {
           {stationSelected ? (
             <Col sm={6}>
               <Card style={{ width: "18rem" }} className={styles.card}>
-                <Card.Img variant="top" src={macasImg[stationSelected.name]} />
+                <Card.Img variant="top" src={stationSelected.imageURL ?? macasImg[stationSelected.name]} />
                 <Card.Body>
                   <Card.Title>{stationSelected.name}</Card.Title>
                   <Card.Text>
