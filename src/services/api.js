@@ -3,7 +3,6 @@ import axios from "axios";
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   // baseURL: "http://localhost:5000/",
-  // baseURL: "https://na-sala-server-d6vi3acbc-alamovinicius.vercel.app/",
   timeout: 15000,
 });
 

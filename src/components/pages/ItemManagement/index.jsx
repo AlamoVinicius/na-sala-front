@@ -1,3 +1,5 @@
+import imageCompression from "browser-image-compression";
+
 import { Container, ListGroup, Stack, Form, Button, Spinner } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import { useQuery, useQueryClient } from "react-query";
@@ -46,6 +48,27 @@ export default function ItemsManagent() {
 
   const resetQueryStations = () => queryclient.resetQueries("@itemsToReservation");
 
+  const compressImg = async (imageFile) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedImgBlob = await imageCompression(imageFile, options);
+
+      const compressedImg = new File([compressedImgBlob], imageFile.name, {
+        type: imageFile.type,
+      });
+
+      console.log("compressed img==>", compressImg);
+      return compressedImg;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -54,17 +77,16 @@ export default function ItemsManagent() {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     } else {
+      const imageResize = await compressImg(selectImg);
       const formData = new FormData();
       formData.append("name", nameItem);
-      formData.append("image", selectImg);
+      formData.append("image", imageResize);
       // TODO obter studioId dinâmicamente
       formData.append("studioId", "64f4c2f5a8103d07303c52a4");
-
       try {
         setLoadingApi(true);
         // TODO migrar para mutation do react query
         await createStation(formData);
-
         toggleModal();
         toast.success("Item cadastrado com sucesso");
         resetQueryStations();
