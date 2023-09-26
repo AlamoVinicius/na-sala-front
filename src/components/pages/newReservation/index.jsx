@@ -20,19 +20,20 @@ import {
 } from "./NewReservation";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 import { NoImage } from "../../feedbacks/NoImage";
+import { useAuthContext } from "../../../contexts/auth";
 
 const Newreservation = () => {
   const [newReservation, setNewReservation] = useState({});
   const [showFinalPickTime, setFinalShowPickTime] = useState(false);
   const [showPickStationAvailable, setShowPickStationAvailable] = useState(false);
-  const [stationSelected, setStationSelected] = useState();
+  const [stationSelected, setStationSelected] = useState(null);
   const [stationsAvailable, setStationsAvailable] = useState([]);
   const [showErrorMsg, setShowErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingConfirmReservation, setLoadingConfirmReservation] = useState(false);
 
-  const recoveryUser = localStorage.getItem("user");
-  const user = JSON.parse(recoveryUser);
+  const { user } = useAuthContext();
+
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     submit(

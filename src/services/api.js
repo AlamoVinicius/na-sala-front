@@ -9,14 +9,14 @@ export const api = axios.create({
 export const createSession = (username, password) => api.post("/sessions", { username, password });
 
 // ========= users ==============
-export const getUsers = async () => {
-  return await api.get("/users");
+export const getUsers = async (companyId) => {
+  return await api.get(`/studio/${companyId}/users`);
 };
 
 export const getInfoUser = async (id) => api.get(`/users/${id}`);
 
-export const createUser = async (user) => {
-  return await api.post("/users", user);
+export const createUser = async (user, studioId) => {
+  return await api.post(`/studio/${studioId}/users`, user);
 };
 
 export const deleteUser = async (id) => {
@@ -30,12 +30,12 @@ export const getStation = async (stationName) => {
   return await api.get(`/stations/${stationName}`);
 };
 
-export const getAllStations = async () => {
-  return await api.get(`/stations`);
+export const getAllStations = async (studioId) => {
+  return await api.get(`/studio/${studioId}/stations`);
 };
 
-export const createStation = async (station) => {
-  return await api.post("/stations", station, { headers: { "Content-Type": "multipart/form-data" } });
+export const createStation = async (station, studioId) => {
+  return await api.post(`studio/${studioId}/stations`, station, { headers: { "Content-Type": "multipart/form-data" } });
 };
 
 export const deleteStation = async (idStation) => await api.delete(`/stations/${idStation}`);
@@ -56,8 +56,8 @@ export const availableStations = async (object) => {
   return await api.post("/booking/verify", object); // end pont para verificar as macas que estarão disponiveis
 };
 
-export const createBooking = async (object) => {
-  return await api.post("/booking", object);
+export const createBooking = async (object, studioId) => {
+  return await api.post(`/studio/${studioId}/booking`, object);
 };
 
 export const deleteBooking = async (id) => {

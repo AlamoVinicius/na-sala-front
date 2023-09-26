@@ -11,6 +11,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import ModalCustom, { ModalComp } from "../../modal/ModalCustom";
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
+import { useAuthContext } from "../../../contexts/auth";
 
 export default function ItemsManagent() {
   const [nameItem, setNameitem] = useState("");
@@ -21,6 +22,8 @@ export default function ItemsManagent() {
   const [showModalDeleteItem, setShowModalDeleteItem] = useState(false);
   const [itemToDeleteSelected, setItemToDeleteSelected] = useState("");
   const [loadingApi, setLoadingApi] = useState(false);
+
+  const { user } = useAuthContext();
 
   const queryclient = useQueryClient();
 
@@ -38,12 +41,13 @@ export default function ItemsManagent() {
   const { data, isLoading } = useQuery({
     queryKey: ["@itemsToReservation"],
     queryFn: async () => {
-      const { data } = await getAllStations();
+      const { data } = await getAllStations(user.studioId);
 
       return data;
     },
     onError: () => toast.error("Ocorreu um erro ao tentar carregar os itens"),
     staleTime: 1000 * 60 * 30,
+    enabled: !!user.studioId,
   });
 
   const resetQueryStations = () => queryclient.resetQueries("@itemsToReservation");
@@ -82,11 +86,10 @@ export default function ItemsManagent() {
       formData.append("name", nameItem);
       formData.append("image", imageResize);
       // TODO obter studioId dinâmicamente
-      formData.append("studioId", "64f4c2f5a8103d07303c52a4");
       try {
         setLoadingApi(true);
         // TODO migrar para mutation do react query
-        await createStation(formData);
+        await createStation(formData, user.studioId);
         toggleModal();
         toast.success("Item cadastrado com sucesso");
         resetQueryStations();
@@ -144,13 +147,13 @@ export default function ItemsManagent() {
             </ListGroup.Item>
           ))}
       </ListGroup>
-      <ModalComp title="Cadastrar novo item" showModal={showModalRegisterNewItem} setShowModal={toggleModal}>
+      <ModalComp title="Nova maca ou apoio" showModal={showModalRegisterNewItem} setShowModal={toggleModal}>
         <Form onSubmit={handleSubmit} noValidate validated={validated}>
           <Form.Group className="mb-3">
-            <Form.Label>Nome</Form.Label>
+            <Form.Label>Nome:</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Digite o nome do novo recurso"
+              placeholder="Digite um nome para a nova maca ou apoio"
               required
               autoFocus
               value={nameItem}
@@ -159,7 +162,7 @@ export default function ItemsManagent() {
             <Form.Control.Feedback type="invalid">Nome obrigatório</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Imagem do item</Form.Label>
+            <Form.Label>Selecione uma imagem:</Form.Label>
             <FileUploader
               multiple={false}
               handleChange={handleImageSelected}
@@ -174,7 +177,7 @@ export default function ItemsManagent() {
             <div className="d-flex justify-content-center mb-3">
               <img
                 src={newItemImgUrl}
-                alt="imagem do novo item"
+                alt="Selecione uma imagem"
                 style={{ width: "100%", height: "100%", maxHeight: "300px", objectFit: "contain" }}
               />
             </div>

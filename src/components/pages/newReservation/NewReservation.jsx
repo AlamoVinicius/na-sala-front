@@ -23,11 +23,12 @@ export const submit = async (
   }
   const reservation = {
     stationName: stationSelected.name,
+    stationId: stationSelected._id,
+    userId: user.id,
     ...newReservation,
-    username: user.username,
   };
   try {
-    await createBooking(reservation);
+    await createBooking(reservation, user.studioId);
     toast.success("Reserva criada com sucesso!");
     navigate("/myreservations");
   } catch (err) {

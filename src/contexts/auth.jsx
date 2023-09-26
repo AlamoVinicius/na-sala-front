@@ -1,9 +1,8 @@
 // informações globais
-import React, { useState, createContext, useEffect, useContext } from "react";
+import React, { useState, createContext, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { api, createSession } from "../services/api";
-import { toast } from "react-toastify";
+import { api, createSession, getInfoUser } from "../services/api";
 
 export const AuthContext = createContext();
 
@@ -15,14 +14,37 @@ export const Authprovider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const logout = useCallback(() => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    api.defaults.headers.Authorization = null;
+
+    setUser(null);
+    navigate("/login");
+  }, [navigate]);
+
   useEffect(() => {
-    const recoveredUser = localStorage.getItem("user");
+    const recoveredUser = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
 
-    if (recoveredUser && token) {
-      setUser(JSON.parse(recoveredUser));
-      api.defaults.headers.Authorization = `Bearer ${token}`;
-    }
+    const getUserInfo = async () => {
+      try {
+        if (token) {
+          api.defaults.headers.Authorization = `Bearer ${token}`;
+          const { data } = await getInfoUser(recoveredUser.id);
+
+          setUser({
+            ...recoveredUser,
+            studioId: data.studioId,
+          });
+        }
+      } catch (error) {
+        if (error.response.status === 401) logout();
+        console.log(error);
+      }
+    };
+
+    getUserInfo();
 
     setLoading(false);
   }, []);
@@ -48,14 +70,6 @@ export const Authprovider = ({ children }) => {
   };
 
   // informações provisorias para adminstração do frontend
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    api.defaults.headers.Authorization = null;
-
-    setUser(null);
-    navigate("/login");
-  };
 
   api.interceptors.response.use(
     (response) => {

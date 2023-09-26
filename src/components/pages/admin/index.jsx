@@ -47,7 +47,7 @@ const AdminPage = () => {
               <FormButton text="reservas" handleClick={() => handleGeBooking()} />
             </div>
             <div className={styles.btn_area}>
-              <FormButton text="Gerenciar items reserváveis" handleClick={() => navigate("/itemsManagement")} />
+              <FormButton text="Gerenciar macas e apoios" handleClick={() => navigate("/itemsManagement")} />
             </div>
           </Col>
           {showUserList && (

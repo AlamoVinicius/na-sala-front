@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getUsers, deleteUser, blockUser } from "../../../services/api";
 
 import { Table, Button, Stack } from "react-bootstrap";
@@ -8,6 +8,7 @@ import Alert from "../../layout/Alert";
 import { HiUserRemove, HiOutlineXCircle, HiOutlineCheckCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
+import { useAuthContext } from "../../../contexts/auth";
 
 const userRole = ["user", "admin", "owner"];
 
@@ -19,28 +20,34 @@ const UsersAdmin = () => {
   const [selectUser, setSelectUser] = useState("");
   const [isloading, setIsloading] = useState();
 
+  const { user } = useAuthContext();
+
+  const FetchMyapi = useCallback(async () => {
+    try {
+      const users = await getUsers(user.studioId);
+      setUsers(users.data);
+    } catch (error) {
+      console.log(error);
+      setErrorMsg("erro ao carregar os usuários");
+    } finally {
+      setIsloading(false);
+    }
+  }, [user.studioId]);
+
   useEffect(() => {
     setIsloading(true);
-    const FetchMyapi = async () => {
-      try {
-        const users = await getUsers();
-        setUsers(users.data);
-      } catch (error) {
-        console.log(error);
-        setErrorMsg("erro ao carregar os usuários");
-      } finally {
-        setIsloading(false);
-      }
-    };
+
     FetchMyapi();
-  }, [selectUser]);
+  }, [FetchMyapi]);
 
   const handleDelete = async (user) => {
     try {
       setIsloading(true);
       const id = user._id;
       await deleteUser(id);
+      toast.success("Usuário Removido com sucesso!");
       setSelectUser("");
+      FetchMyapi();
     } catch (err) {
       toast.error(err?.response?.data?.message ?? "Ocorreu um erro ao deletar o usuário");
     } finally {
@@ -56,6 +63,7 @@ const UsersAdmin = () => {
 
       toast.success(response?.data?.message ?? "Usuário bloqueado com sucesso!");
       setSelectUser("");
+      FetchMyapi();
     } catch (err) {
       console.log(err);
       toast.error(err?.response?.data?.message ?? "Erro ao bloquear usuário");

@@ -9,18 +9,18 @@ import { getInfoUser } from "../../services/api";
 import { AuthContext } from "../../contexts/auth";
 
 const HomePage = () => {
-  const { logout } = useContext(AuthContext);
+  // const { logout } = useContext(AuthContext);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const recoveredUser = JSON.parse(localStorage.getItem("user"));
-        await getInfoUser(recoveredUser.id);
-      } catch (error) {
-        if (error.response.status === 401) logout();
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const recoveredUser = JSON.parse(localStorage.getItem("user"));
+  //       await getInfoUser(recoveredUser.id);
+  //     } catch (error) {
+  //       if (error.response.status === 401) logout();
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <div className={styles.home_page}>

@@ -9,6 +9,7 @@ import Alert from "../../layout/Alert";
 import ModalCustom from "../../modal/ModalCustom";
 import { BackdropLoading } from "../../feedbacks/LoadingBackDrop";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../../../contexts/auth";
 
 const NewUserForm = ({ handleFinishREgisterUser }) => {
   const [userName, seUsername] = useState();
@@ -20,6 +21,8 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
   const [showModal, setShowModal] = useState(false);
   const [loadingRegisterUser, setLoadingRegisterUser] = useState(false);
   const navigate = useNavigate();
+
+  const { user } = useAuthContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,14 +36,15 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
       username: userName,
       password: pass,
       nivelUser: nivelUser,
+      studioId: user.studioId,
     };
     try {
       setLoadingRegisterUser(true);
-      await createUser(newUser);
+      await createUser(newUser, user.studioId);
       toast.success("Usuário cadastrado com sucesso!");
       handleFinishREgisterUser();
     } catch (err) {
-      toast.error("Erro ao tentar cadastrar novo usuário");
+      toast.error(err?.response?.data?.message ?? "Erro ao tentar cadastrar novo usuário");
     } finally {
       setLoadingRegisterUser(false);
     }
