@@ -33,7 +33,7 @@ const Myreservations = () => {
     try {
       setIsLoading(true);
       const get = async () => {
-        const bookings = await getMyBookings(user.username);
+        const bookings = await getMyBookings(user.username, user.studioId);
         if (bookings?.data?.length === 0) {
           setErrorMsg("não existem reservas feita por você");
           setIsLoading(false);
@@ -44,7 +44,9 @@ const Myreservations = () => {
       };
       get();
     } catch (error) {
-      setErrorMsg("ocorreu algum erro ao buscar as informações");
+      toast.error(error?.response?.data.message ?? "Ocorreu um erro ao buscar sua reservas");
+    } finally {
+      setIsLoading(false);
     }
   }, [user.username]);
 

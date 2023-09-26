@@ -64,7 +64,7 @@ export const MyReservationList = ({ bookings, handleDeleteSchedule }) => {
       <ModalCustom
         showModal={showModal}
         setShowModal={setShowModal}
-        title="Tem certeza que deseja exluir a reserva?"
+        title="Tem certeza que deseja excluir a reserva?"
         handleConfirmClick={() => {
           setShowModal(false);
           handleDeleteSchedule(bookings._id);

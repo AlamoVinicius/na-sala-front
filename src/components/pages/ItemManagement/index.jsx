@@ -1,6 +1,6 @@
 import imageCompression from "browser-image-compression";
 
-import { Container, ListGroup, Stack, Form, Button, Spinner } from "react-bootstrap";
+import { Container, ListGroup, Stack, Form, Button, Spinner, Alert } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import { useQuery, useQueryClient } from "react-query";
 import { createStation, deleteStation, getAllStations } from "../../../services/api";
@@ -124,29 +124,35 @@ export default function ItemsManagent() {
       <Stack direction="horizontal" className="mb-5">
         <FormButton text="Cadastrar novo item" handleClick={toggleModal} />
       </Stack>
-      {isLoading && <BackdropLoading />}
-      <ListGroup as="ul">
-        {data &&
-          data.map((item) => (
-            <ListGroup.Item key={item._id} as="li" className="d-flex justify-content-between align-items-start p-3">
-              <div>
-                <p className="fw-bold ">{item.name}</p>
-                <FormButton
-                  handleClick={() => {
-                    setShowModalDeleteItem(true);
-                    setItemToDeleteSelected(item._id);
-                  }}
-                  text={
-                    <Stack direction="horizontal" gap={3}>
-                      Deletar <AiOutlineDelete color="red" />
-                    </Stack>
-                  }
-                />
-              </div>
-              {item.imageURL ? <img src={item.imageURL} alt="" width={150} height={150} /> : <NoImage />}
-            </ListGroup.Item>
-          ))}
-      </ListGroup>
+      {isLoading ? (
+        <BackdropLoading />
+      ) : (
+        <ListGroup as="ul">
+          {data?.length > 0 ? (
+            data.map((item) => (
+              <ListGroup.Item key={item._id} as="li" className="d-flex justify-content-between align-items-start p-3">
+                <div>
+                  <p className="fw-bold ">{item.name}</p>
+                  <FormButton
+                    handleClick={() => {
+                      setShowModalDeleteItem(true);
+                      setItemToDeleteSelected(item._id);
+                    }}
+                    text={
+                      <Stack direction="horizontal" gap={3}>
+                        Deletar <AiOutlineDelete color="red" />
+                      </Stack>
+                    }
+                  />
+                </div>
+                {item.imageURL ? <img src={item.imageURL} alt="" width={150} height={150} /> : <NoImage />}
+              </ListGroup.Item>
+            ))
+          ) : (
+            <Alert variant="warning">Não existem equipamentos cadastradas</Alert>
+          )}
+        </ListGroup>
+      )}
       <ModalComp title="Nova maca ou apoio" showModal={showModalRegisterNewItem} setShowModal={toggleModal}>
         <Form onSubmit={handleSubmit} noValidate validated={validated}>
           <Form.Group className="mb-3">

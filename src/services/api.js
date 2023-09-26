@@ -42,18 +42,19 @@ export const deleteStation = async (idStation) => await api.delete(`/stations/${
 
 // ========== booking ===================
 
-export const getAllReservationFromMonth = (params) => api.get("/booking", { params: params });
+export const getAllReservationFromMonth = (params, studioId) =>
+  api.get(`studio/${studioId}/booking`, { params: params });
 
-export const getMyBookings = async (username) => {
-  return await api.get(`/booking/${username}`);
+export const getMyBookings = async (username, studioId) => {
+  return await api.get(`studio/${studioId}/booking/${username}`);
 };
 
-export const getBookingsbyDay = async (date) => {
-  return await api.get(`/getbookingbyday?date=${date}`);
+export const getBookingsbyDay = async (date, studioId) => {
+  return await api.get(`studio/${studioId}/getbookingbyday?date=${date}`);
 };
 
-export const availableStations = async (object) => {
-  return await api.post("/booking/verify", object); // end pont para verificar as macas que estarão disponiveis
+export const availableStations = async (object, studioId) => {
+  return await api.post(`studio/${studioId}/booking/verify`, object); // end pont para verificar as macas que estarão disponiveis
 };
 
 export const createBooking = async (object, studioId) => {

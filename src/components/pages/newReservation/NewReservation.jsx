@@ -84,7 +84,8 @@ export const verifyAvailable = async (
   setStationsAvailable,
   setShowPickStationAvailable,
   setStationSelected,
-  setLoading
+  setLoading,
+  studioId
 ) => {
   e.preventDefault();
 
@@ -92,10 +93,13 @@ export const verifyAvailable = async (
     setLoading(true);
     const initialDate = new Date(newReservation.startDate);
     const endDate = new Date(newReservation.finalDate);
-    const stations = await availableStations({
-      startDate: initialDate,
-      finalDate: endDate,
-    });
+    const stations = await availableStations(
+      {
+        startDate: initialDate,
+        finalDate: endDate,
+      },
+      studioId
+    );
     setStationsAvailable(stations.data);
     setShowPickStationAvailable(true);
     setStationSelected(false);

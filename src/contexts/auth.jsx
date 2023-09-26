@@ -3,6 +3,7 @@ import React, { useState, createContext, useEffect, useContext, useCallback } fr
 import { useNavigate } from "react-router-dom";
 
 import { api, createSession, getInfoUser } from "../services/api";
+import { useQueryClient } from "react-query";
 
 export const AuthContext = createContext();
 
@@ -13,11 +14,13 @@ export const Authprovider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
+  const queryClient = useQueryClient();
 
   const logout = useCallback(() => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     api.defaults.headers.Authorization = null;
+    queryClient.removeQueries();
 
     setUser(null);
     navigate("/login");

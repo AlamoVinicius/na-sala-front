@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { getBookingsbyDay, getAllReservationFromMonth } from "../../../services/api";
 import moment from "moment";
 
+import { useAuthContext } from "../../../contexts/auth";
+
 import Calendar from "react-calendar";
 
 import { Container, Row, Col, Spinner, Alert, Table } from "react-bootstrap";
@@ -18,6 +20,7 @@ const BookingAdmin = () => {
   const [errorMsg, setErrorMsg] = useState("");
   // const [newArrayFormat, setNewArrayFormat] = useState([]);
 
+  const { user } = useAuthContext();
   const [rangeMonthParam, setRangeMonthParam] = useState([
     moment().startOf("month").format(),
     moment().endOf("month").format(),
@@ -30,11 +33,11 @@ const BookingAdmin = () => {
       try {
         setIsLoading(true);
 
-        const monthReservation = await getAllReservationFromMonth(rangeMonthParam);
+        const monthReservation = await getAllReservationFromMonth(rangeMonthParam, user.studioId);
         // console.log(monthReservation.data.length);
         setAllBookingsMonth(monthReservation.data.map((data) => convertDAte(data.finalDate)));
       } catch (error) {
-        toast.error(error?.response?.data?.message ?? "Ocorreu um erro ao deletar o usuário");
+        toast.error(error?.response?.data?.message ?? "Ocorreu um erro ao carregar reservas");
         console.log(error);
       } finally {
         setIsLoading(false);
@@ -54,7 +57,7 @@ const BookingAdmin = () => {
     setIsLoading(true);
     const date = new Date(e).setUTCHours(3);
     try {
-      const FetchBookings = await getBookingsbyDay(new Date(date));
+      const FetchBookings = await getBookingsbyDay(new Date(date), user.studioId);
       const bookingArry = FetchBookings.data;
       if (bookingArry.length === 0) {
         setErrorMsg("Não existem reservas para este dia");

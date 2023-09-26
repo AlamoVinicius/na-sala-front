@@ -8,7 +8,7 @@ import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
 import { FormButton } from "../../buttons/Buttons";
 import styles from "./index.module.css";
 import { InputEffect } from "../../inputs/Inputs";
-import Alert from "../../layout/Alert";
+import { Alert } from "react-bootstrap";
 
 import {
   submit,
@@ -92,7 +92,8 @@ const Newreservation = () => {
                       setStationsAvailable,
                       setShowPickStationAvailable,
                       setStationSelected,
-                      setLoading
+                      setLoading,
+                      user.studioId
                     )
                   }
                 />
@@ -103,24 +104,28 @@ const Newreservation = () => {
             <Col sm={6}>
               <h2>Macas disponíveis</h2>
               <ListGroup>
-                {stationsAvailable.map((station) => {
-                  return (
-                    <ListGroup.Item className={styles.list_area} key={station._id}>
-                      {station.imageURL ? (
-                        <img src={station.imageURL ?? macasImg[station.name]} alt="Equipamento" />
-                      ) : (
-                        <NoImage />
-                      )}
-                      <span>{station.name}</span>
-                      <FormButton
-                        text="Selecionar"
-                        handleClick={(e) =>
-                          handlePickSelected(e, station, setStationSelected, setShowPickStationAvailable)
-                        }
-                      />
-                    </ListGroup.Item>
-                  );
-                })}
+                {stationsAvailable.length === 0 ? (
+                  <Alert variant="danger">Não existe nenhum equipamento disponível no período selecionado</Alert>
+                ) : (
+                  stationsAvailable.map((station) => {
+                    return (
+                      <ListGroup.Item className={styles.list_area} key={station._id}>
+                        {station.imageURL ? (
+                          <img src={station.imageURL ?? macasImg[station.name]} alt="Equipamento" />
+                        ) : (
+                          <NoImage />
+                        )}
+                        <span>{station.name}</span>
+                        <FormButton
+                          text="Selecionar"
+                          handleClick={(e) =>
+                            handlePickSelected(e, station, setStationSelected, setShowPickStationAvailable)
+                          }
+                        />
+                      </ListGroup.Item>
+                    );
+                  })
+                )}
               </ListGroup>
             </Col>
           ) : null}
