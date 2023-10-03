@@ -6,7 +6,7 @@ export const api = axios.create({
   timeout: 15000,
 });
 
-export const createSession = (username, password) => api.post("/sessions", { username, password });
+export const createSession = (loginData) => api.post("/sessions", loginData);
 
 // ========= users ==============
 export const getUsers = async (companyId) => {

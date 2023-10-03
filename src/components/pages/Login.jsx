@@ -1,28 +1,32 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/auth";
 
-import { Spinner } from "react-bootstrap";
-
 import styles from "./Login.module.css";
 import logo from "../../assets/imgs/logo.png";
-import Alert from "../layout/Alert";
 import { BackdropLoading } from "../feedbacks/LoadingBackDrop";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const { authenticated, login, errorMsg, loading } = useContext(AuthContext);
+  const { authenticated, login, loading } = useContext(AuthContext);
 
   const [credetinals, setCredentials] = useState({ username: "", password: "" });
 
-  const [showMessageError, setShowMessageError] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(credetinals);
-    !authenticated ? setShowMessageError(true) : setShowMessageError(false);
+    const userCredentials = {
+      [credetinals.username.includes("@") ? "email" : "username"]: credetinals.username,
+      password: credetinals.password,
+    };
+
+    try {
+      await login(userCredentials);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleChange = (e) => {
@@ -37,11 +41,11 @@ const Login = () => {
     <div className={styles.container_login}>
       <div className={styles.login_box}>
         <form onSubmit={handleSubmit}>
-          <img src={logo} alt="na sala logo" />
-          <label htmlFor="username">Username</label>
+          <img src={logo} alt="na sala logo" style={{ width: 150, height: 80, marginBlock: 50 }} />
+          <label htmlFor="username">Email / Username</label>
           <input
             type="text"
-            placeholder="Digite seu nome de usuário"
+            placeholder="Digite seu email"
             autoComplete="on"
             name="username"
             id="username"
@@ -57,7 +61,6 @@ const Login = () => {
             name="password"
             onChange={handleChange}
           />
-          {showMessageError ? <Alert severity={"error"} msg={errorMsg} /> : null}
           <div className={styles.btn_area}>
             <button className={styles.btn}>ENTRAR</button>
           </div>

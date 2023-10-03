@@ -12,11 +12,13 @@ import ItemsManagent from "./components/pages/ItemManagement";
 
 import { Authprovider, AuthContext, useAuthContext } from "./contexts/auth";
 import NavBar from "./components/navbar/Navbar";
+import { BackdropLoading } from "./components/feedbacks/LoadingBackDrop";
 const AppRoutes = () => {
   const Private = ({ children }) => {
     const { authenticated, loading } = useContext(AuthContext);
+
     if (loading) {
-      return <div className="loading">Carregando...</div>;
+      return <BackdropLoading />;
     }
 
     if (!authenticated) {

@@ -27,46 +27,50 @@ export const Authprovider = ({ children }) => {
   }, [navigate]);
 
   useEffect(() => {
-    const recoveredUser = JSON.parse(localStorage.getItem("user"));
+    // const recoveredUser = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
 
     const getUserInfo = async () => {
       try {
         if (token) {
           api.defaults.headers.Authorization = `Bearer ${token}`;
-          const { data } = await getInfoUser(recoveredUser.id);
+          const { data } = await getInfoUser();
 
           setUser({
-            ...recoveredUser,
-            studioId: data.studioId,
+            ...data,
           });
         }
       } catch (error) {
         if (error.response.status === 401) logout();
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     getUserInfo();
-
-    setLoading(false);
   }, []);
 
-  const login = async ({ username, password }) => {
+  const login = async (credentials) => {
+    const credentialLogin = {
+      [credentials.email ? "email" : "username"]: credentials.email
+        ? credentials.email.trim()
+        : credentials.username.trim(),
+      password: credentials.password.trim(),
+    };
+
     try {
       setErrorMsg(null);
       setLoading(true);
-      const response = await createSession(username.trim(), password.trim());
-      const loggedUser = response.data;
-      const token = loggedUser?.token;
-      localStorage.setItem("user", JSON.stringify(loggedUser.user));
+      const { data } = await createSession(credentialLogin);
+
+      const token = data?.token;
       localStorage.setItem("token", token);
       api.defaults.headers.Authorization = `Bearer ${token}`;
-      setUser(loggedUser.user);
-      navigate("/");
+      const userdata = await getInfoUser(data.id);
+      setUser(userdata.data);
     } catch (error) {
-      console.log(error);
-      setErrorMsg(error?.response?.data?.error ?? "ocorreu um erro ao tentar fazer login");
+      throw new Error(error?.response?.data?.error ?? "ocorreu um erro ao tentar fazer login");
     } finally {
       setLoading(false);
     }

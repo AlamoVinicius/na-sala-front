@@ -20,6 +20,7 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
   const [textNivelUser, setTextNivelUser] = useState("Nivel de usuário");
   const [showModal, setShowModal] = useState(false);
   const [loadingRegisterUser, setLoadingRegisterUser] = useState(false);
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const { user } = useAuthContext();
@@ -32,12 +33,20 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
     if (nivelUser === null) {
       return setErrorMsg("selecione o nível de usuário");
     }
+    if (email === "") {
+      return setErrorMsg("Preencha o email");
+    }
+    if (!email.includes("@")) {
+      return setErrorMsg("Email inválido");
+    }
     const newUser = {
       username: userName,
       password: pass,
       nivelUser: nivelUser,
       studioId: user.studioId,
+      email: email,
     };
+
     try {
       setLoadingRegisterUser(true);
       await createUser(newUser, user.studioId);
@@ -62,10 +71,11 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
           <Col>
             <InputEffect
               type="text"
-              textLabel="Username"
+              textLabel="Nome de usuário"
               name="username"
               handleOnChange={(e) => seUsername(e.target.value)}
             />
+            <InputEffect type="email" textLabel="Email" name="email" handleOnChange={(e) => setEmail(e.target.value)} />
             <DropdownButton id="dropdown-basic-button" title={textNivelUser} variant="secondary">
               <Dropdown.Item
                 onClick={(e) => {
