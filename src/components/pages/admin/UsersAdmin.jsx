@@ -94,7 +94,11 @@ const UsersAdmin = () => {
                   return (
                     <tr key={user._id}>
                       <td>
-                        {user.username} {blocked && <span style={{ color: "red" }}>(bloqueado)</span>}
+                        <strong>nome: </strong>
+                        {" " + user.username}
+                        {blocked && <span style={{ color: "red" }}>(bloqueado)</span>}
+                        <br />
+                        <strong>email: </strong> {user.email || "Não cadastrado"}
                       </td>
                       <td>{userRole[user.nivelUser]}</td>
                       <td>

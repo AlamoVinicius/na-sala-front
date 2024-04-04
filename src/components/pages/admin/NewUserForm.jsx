@@ -73,9 +73,14 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
               type="text"
               textLabel="Nome de usuário"
               name="username"
-              handleOnChange={(e) => seUsername(e.target.value)}
+              handleOnChange={(e) => seUsername(e.target.value.trim())}
             />
-            <InputEffect type="email" textLabel="Email" name="email" handleOnChange={(e) => setEmail(e.target.value)} />
+            <InputEffect
+              type="email"
+              textLabel="Email"
+              name="email"
+              handleOnChange={(e) => setEmail(e.target.value.trim())}
+            />
             <DropdownButton id="dropdown-basic-button" title={textNivelUser} variant="secondary">
               <Dropdown.Item
                 onClick={(e) => {
@@ -100,7 +105,7 @@ const NewUserForm = ({ handleFinishREgisterUser }) => {
               type="password"
               textLabel="Senha"
               name="password"
-              handleOnChange={(e) => setPass(e.target.value)}
+              handleOnChange={(e) => setPass(e.target.value.trim())}
             />
             <InputEffect
               type="password"
